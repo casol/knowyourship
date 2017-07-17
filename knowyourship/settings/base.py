@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # JSON-based secrets module
-with open("/home/christopher/Desktop/knowyourship/knowyourship/settings/secrets.json") as f:
+with open(os.path.join(BASE_DIR, 'settings/secrets.json')) as f:
     secrets = json.loads(f.read())
 
 
