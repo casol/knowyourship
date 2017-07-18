@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from .models import ShipList
 
-# Create your views here.
+
+def ship_list(request):
+    ships = ShipList.objects.all()
+    return render(request,
+                  'core/base.html',
+                  {'ships': ships})

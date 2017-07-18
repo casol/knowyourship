@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class ListOfMuseumShips(models.Model):
+class ShipList(models.Model):
     """List of museum ships."""
     ship = models.CharField(max_length=250)
     country = models.CharField(max_length=250)
