@@ -20,6 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^core/', include('core.urls',
-                      namespace='core',
-                      app_name='core')),
+                           namespace='core',
+                           app_name='core')),
 ]
