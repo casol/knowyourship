@@ -5,5 +5,5 @@ from .models import ShipList
 def ship_list(request):
     ships = ShipList.objects.all()
     return render(request,
-                  'core/index.html',
+                  'core/base.html',
                   {'ships': ships})
