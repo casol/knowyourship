@@ -19,10 +19,11 @@ class ShipList(models.Model):
 
 class ShipImage(models.Model):
     """Model responsible for storing images."""
+    ship_details = models.ForeignKey('ShipDetails', related_name='ship_details')
     title = models.CharField(max_length=200)
     image_description = models.TextField(blank=True)
     artist = models.CharField(max_length=200)
-    data = models.CharField()
+    created = models.CharField(max_length=200)
     url = models.URLField()
     slug = models.SlugField(max_length=200, blank=True)
     usage_terms = models.CharField(max_length=250)
@@ -34,9 +35,11 @@ class ShipImage(models.Model):
 
 
 class ShipDetails(models.Model):
+    """Ship description."""
+    ship = models.OneToOneField(ShipList)
     content = models.TextField(blank=True)
+    remarks = models.CharField(max_length=250, blank=True)
 
-
-
-
+    def __str__(self):
+        return self.ship.ship
 

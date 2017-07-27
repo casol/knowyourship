@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from core.models import ShipList
+from core.models import ShipList, ShipDetails, ShipImage
 
 
 class ShipListTest(TestCase):
@@ -90,3 +90,22 @@ class ShipListTest(TestCase):
     def test_remarks_field_max_length(self):
         max_length = self.s._meta.get_field('remarks').max_length
         self.assertEqual(max_length, 250)
+
+
+class ShipDetails(TestCase):
+    """Test ShipDetails model."""
+    def setUp(self):
+        self.user = User.objects.create_user(username='test', email='test@test.com',
+                                             password='test')
+        self.s = ShipList.objects.create(ship='USS Test', country='Testland',
+                                         region='Testo', city='Test City',
+                                         from_country='Testland', year='2017',
+                                         ship_class='Tester', remarks='Just ship')
+        self.d = ShipDetails.objects.create(ship=self.s, content='TestTesttesttes', remarks='cs')
+
+
+    #def test_ship_details_creation(self):
+        #"""test_ship_details_creation() should return ship name."""
+        #self.assertTrue(isinstance(self.d, ShipDetails))
+        #self.assertEqual(self.d.__str__(), self.d.s)
+
