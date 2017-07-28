@@ -36,7 +36,7 @@ class ShipImage(models.Model):
 
 class ShipDetails(models.Model):
     """Ship description."""
-    ship = models.OneToOneField(ShipList)
+    ship = models.OneToOneField(ShipList, related_name='details')
     content = models.TextField(blank=True)
     remarks = models.CharField(max_length=250, blank=True)
 

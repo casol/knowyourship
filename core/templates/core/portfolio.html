@@ -3,8 +3,8 @@
     <section id="portfolio" class="portfolio">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10 col-lg-offset-1 text-center">
-                    <h2>Our Work</h2>
+                <div class="col-lg-12 text-center">
+                    <h2>{{ ships.ship }}</h2>
                     <hr class="small">
                     <div class="row">
                         <div class="col-md-6">
@@ -15,25 +15,19 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <p>
-                            HNLMS Abraham Crijnssen was a Jan van Amstel-class
-                            minesweeper of the Royal Netherlands Navy (RNN).
-                            Built during the 1930s, she was based in the Netherlands East Indies
-                            when Japan attacked at the end of 1941. Ordered to retreat to Australia,
-                            the ship was disguised as a tropical island to avoid detection,
-                            and was the last Dutch ship to escape from the region.
-                            On arriving in Australia in 1942, she was commissioned into
-                            the Royal Australian Navy (RAN) as HMAS Abraham Crijnssen and operated
-                            as an anti-submarine escort. Although returned to RNN control in 1943,
-                            the ship remained in Australian waters for most of World War II. After the war,
-                            Abraham Crijnssen operated on anti-revolution patrols in the East Indies,
-                            before returning to the Netherlands and being converted into a boom defence ship
-                            in 1956. Removed from service in 1960, the vessel was donated to the Netherlands
-                            Sea Cadet Corps for training purposes. In 1995, Abraham Crijnssen was acquired
-                            by the Dutch Navy Museum for preservation as a museum ship.
-                        </p>
+                            <div class="portfolio-item">
+                                <p align="justify">
+                                    {{ ships.details.content }}
+                                </p>
+                            </div>
                         </div>
-
+                        <div class="col-md-6">
+                            <div class="portfolio-item">
+                                <p>
+                                    {{ ships.details.content }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.row (nested) -->
                     <a href="#" class="btn btn-dark">View More Items</a>
