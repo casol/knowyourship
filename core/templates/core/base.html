@@ -63,6 +63,9 @@
     <!-- Footer -->
     {% include "core/footer.html" %}
 
+    {% block search %}
+    {% include "core/search.html" %}
+    {% endblock %}
 
     <!-- jQuery -->
     <script src="{% static "core/js/jquery.js" %}"></script>
