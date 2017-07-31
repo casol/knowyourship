@@ -2,7 +2,11 @@
 
 {% block content %}
     <h1>Search</h1>
-    <p>asdgf</p>
+    <p>Mam cos?</p>
+    {% for r in results %}
+        {{ results.ship }}
+    {% endfor %}
+
     <p> {{ results }}</p>
     <p>{{ ships.ship }}</p>
     <form method="GET" action="">
@@ -11,10 +15,7 @@
 
     </form>
     <br>
-    <form action="" method="get">
-        <label for="your_name">Your name: </label>
-        <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-        <input type="submit" value="OK">
+
     </form>
     <br>
     <form action="" method="get">

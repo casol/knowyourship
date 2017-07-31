@@ -12,12 +12,16 @@ def ship_list(request):
 
 def ship_search(request):
     form = SearchFrom()
+    results = None
+    cd = None
     if 'query' in request.GET:
         form = SearchFrom(request.GET)
         if form.is_valid():
-            cd = form.cleaned_data
+            cd = form.cleaned_data['query']
             results = ShipList.objects.filter(ship__icontains=cd)
+            results = list(results)
     return render(request,
                   'core/search.html',
                   {'form': form,
-                   'results': results})
+                   'results': results,
+                   'cd': cd})
