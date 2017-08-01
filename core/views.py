@@ -18,10 +18,10 @@ def ship_search(request):
         form = SearchFrom(request.GET)
         if form.is_valid():
             cd = form.cleaned_data['query']
-            results = ShipList.objects.filter(ship__icontains=cd)
-            results = list(results)
+            #  get attribute 'ship' and return list of values
+            results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
     return render(request,
-                  'core/search.html',
+                  'core/base.html',
                   {'form': form,
                    'results': results,
                    'cd': cd})

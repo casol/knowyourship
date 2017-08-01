@@ -3,23 +3,13 @@
 {% block content %}
     <h1>Search</h1>
     <p>Mam cos?</p>
-    {% for r in results %}
-        {{ results.ship }}
+    {% for result in results %}
+        <p>{{ result }}</p>
     {% endfor %}
-
-    <p> {{ results }}</p>
-    <p>{{ ships.ship }}</p>
-    <form method="GET" action="">
-        <input type="text" name="query" placeholder="Search Ship">
-        <input type="submit" value="Search">
-
-    </form>
-    <br>
 
     </form>
     <br>
     <form action="" method="get">
-
         {{ form }}
         <input type="submit" value="Submit" />
     </form>
