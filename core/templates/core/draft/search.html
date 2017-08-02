@@ -1,0 +1,43 @@
+{% extends "core/draft/index.html" %}
+
+{% block search %}
+    <p>search template ↓</p>
+
+    <div class="ui-widget">
+        <label for="places">Places: </label>
+        <input id="places">
+    </div>
+    <script>
+
+  $(function() {
+    $("#places").autocomplete({
+      source: "",
+      select: function (event, ui) { //item selected
+        AutoCompleteSelectHandler(event, ui)
+      },
+      minLength: 2,
+    });
+  });
+
+  function AutoCompleteSelectHandler(event, ui)
+  {
+    var selectedObj = ui.item;
+  }
+
+</script>
+    </form>
+
+    <form action="" method="get">
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+
+{% for result in results %}
+    <h1>{{ result.ship }}</h1>
+    <p>{{ result.country }}</p>
+    <h3>Ship Details:</h3>
+    <p>{{ result.details.content }}</p>
+{% endfor %}
+
+
+{% endblock %}
