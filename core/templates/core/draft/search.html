@@ -1,14 +1,21 @@
 {% extends "core/draft/index.html" %}
 
+
+
+
 {% block search %}
+
     <p>search template ↓</p>
 
     <form action="" method="get">
         {{ form.as_p }}
         <input type="submit" value="Submit" />
     </form>
+    <p>jquery ↓</p>
 
-</script>
+
+
+
 {% for result in results %}
     <h1>{{ result.ship }}</h1>
     <p>{{ result.country }}</p>
