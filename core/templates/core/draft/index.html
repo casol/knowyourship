@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <!-- jQuery !-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- jQuery UI !-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 </head>
 <body>
@@ -17,18 +21,8 @@
     {% block details %}
 
     {% endblock %}
-    <p>test</p>
-    <div class="ui-widget">
-  <label for="ships">Ships: </label>
-  <input id="ships">
-</div>
-
 
     <!-- jQuery !-->
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="{% static 'core/js/q.js' %}"></script>
 </body>
 </html>

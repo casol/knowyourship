@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
 from .models import ShipList
 from .forms import SearchFrom
+
 import json
 
 
-def ship(request):
-    return render(request, 'core/draft/index.html')
-
-"""
 def ship_search(request):
     form = SearchFrom()
     results = None
@@ -20,12 +18,13 @@ def ship_search(request):
             # get attribute 'ship' and return list of values
             #results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
             results = ShipList.objects.filter(ship__icontains=cd)
+
     return render(request,
                   'core/draft/search.html',
                   {'form': form,
                    'results': results,
                    'cd': cd})
-"""
+
 
 def get_ship(request):
     if request.is_ajax():
