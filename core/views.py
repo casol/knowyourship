@@ -33,7 +33,7 @@ def get_ship(request):
     call is made with the ID of the input field to autocomplete
     function of Jquery-ui. In the source property, a url is supplied
     which maps to a django view. Then in view we query the model
-    we want to with the parameter named 'term', eg. the term contains
+    with the parameter named 'term', eg. the term contains
     “HMS”, a list is generated containing the 'term'."""
     if request.is_ajax():
         q = request.GET.get('term', '')

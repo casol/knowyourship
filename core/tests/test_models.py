@@ -14,8 +14,12 @@ class ShipListTest(TestCase):
                                          from_country='Testland', year='2017',
                                          ship_class='Tester', remarks='Just ship')
 
+    def test_str(self):
+        """test_str should return ship name."""
+        self.assertEqual(self.s.ship, str(self.s))
+
     def test_ship_creation(self):
-        """test_ship_creation() should return ship name for ship field."""
+        """test_ship_creation() should return ship name for the ship field."""
         self.assertTrue(isinstance(self.s, ShipList))
         self.assertEqual(self.s.__str__(), self.s.ship)
 
