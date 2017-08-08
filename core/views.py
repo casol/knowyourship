@@ -34,7 +34,8 @@ def get_ship(request):
     function of Jquery-ui. In the source property, a url is supplied
     which maps to a django view. Then in view we query the model
     with the parameter named 'term', eg. the term contains
-    “HMS”, a list is generated containing the 'term'."""
+    “HMS”, a list is generated containing the 'term'.
+    """
     if request.is_ajax():
         q = request.GET.get('term', '')
         ships = ShipList.objects.filter(ship__icontains=q)
