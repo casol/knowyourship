@@ -18,8 +18,8 @@
 
 </head>
 <body>
-    <h1>MAIN PAGE!</h1>
-    <p>SEARCH FOR SHIP</p>
+    <h1>KNOW YOUR SHIP!</h1>
+    <p>SEARCH FOR A SHIP</p>
     {% block search %}
 
     {% endblock %}
@@ -27,25 +27,10 @@
     {% block details %}
     {% endblock %}
 
-    <h3>My Google Maps Demo</h3>
-    <div id="map"></div>
-    <script>
-          function initMap() {
-            var uluru = {lat: -25.363, lng: 131.044};
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 14,
-              center: uluru
-            });
-            var marker = new google.maps.Marker({
-              position: uluru,
-              map: map
-            });
-          }
-    </script>
 
     <!-- Google Maps API !-->
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_KAY_APIcallback=initMap">
     </script>
 
 

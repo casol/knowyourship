@@ -8,11 +8,28 @@
     </form>
 
 {% for result in results %}
+
+    <h3>Google Maps Demo</h3>
+    <div id="map"></div>
+    <script>
+          function initMap() {
+            var uluru = {lat: {{ result.coordinates.latitude }}, lng: {{ result.coordinates.longitude }}};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 14,
+              center: uluru
+            });
+            var marker = new google.maps.Marker({
+              position: uluru,
+              map: map
+            });
+          }
+    </script>
     <h1>{{ result.ship }}</h1>
     <p>{{ result.country }}</p>
     <h3>Ship Details:</h3>
     <p>{{ result.details.content }}</p>
+    <p>{{ result.coordinates.latitude }}</p>
+    <p>{{ result.coordinates.longitude }}</p>
+
 {% endfor %}
-
-
 {% endblock %}
