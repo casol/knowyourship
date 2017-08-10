@@ -23,7 +23,7 @@ class RequestTest(TestCase):
         request = self.factory.get('/')
         response = ship_search(request)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "MAIN PAGE!")
+        self.assertContains(response, "KNOW YOUR SHIP!")
 
     def test_ajax_autocomplete_search(self):
         """test_ajax_autocomplete_search() sending a request to

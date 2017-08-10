@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from core.models import ShipList, ShipDetails, ShipImage
+from core.models import ShipList, ShipDetails, ShipImage, ShipCoordinates
 
 
 class ShipListTest(TestCase):
@@ -96,20 +96,68 @@ class ShipListTest(TestCase):
         self.assertEqual(max_length, 250)
 
 
-class ShipDetails(TestCase):
+class ShipDetailsTest(TestCase):
     """Test ShipDetails model."""
     def setUp(self):
         self.user = User.objects.create_user(username='test', email='test@test.com',
                                              password='test')
-        self.s = ShipList.objects.create(ship='USS Test', country='Testland',
-                                         region='Testo', city='Test City',
-                                         from_country='Testland', year='2017',
-                                         ship_class='Tester', remarks='Just ship')
-        self.d = ShipDetails.objects.create(ship=self.s, content='TestTesttesttes', remarks='cs')
+        self.ship = ShipList.objects.create(ship='USS Test', country='Testland',
+                                            region='Testo', city='Test City',
+                                            from_country='Testland', year='2017',
+                                            ship_class='Tester', remarks='Just ship')
+        self.details = ShipDetails.objects.create(ship=self.ship,
+                                                  content='TestTesttesttes',
+                                                  remarks='cs')
+
+    def test_ship_details_creation(self):
+        """test_ship_details_creation() should return ship name."""
+        self.assertTrue(isinstance(self.details, ShipDetails))
+        self.assertEqual(self.details.__str__(), 'USS Test')
+
+    def test_content_field(self):
+        field_content = self.details._meta.get_field('content').verbose_name
+        self.assertEqual(field_content, 'content')
+
+    def test_remarks_field(self):
+        field_remarks = self.details._meta.get_field('remarks').verbose_name
+        self.assertEqual(field_remarks, 'remarks')
+
+    def test_remarks_field_max_length(self):
+        max_length = self.details._meta.get_field('remarks').max_length
+        self.assertEqual(max_length, 250)
 
 
-    #def test_ship_details_creation(self):
-        #"""test_ship_details_creation() should return ship name."""
-        #self.assertTrue(isinstance(self.d, ShipDetails))
-        #self.assertEqual(self.d.__str__(), self.d.s)
+class ShipCoordinatesTest(TestCase):
+    """Test ShipCoordinates model."""
+    def setUp(self):
+        self.user = User.objects.create_user(username='test', email='test@test.com',
+                                             password='test')
+        self.ship = ShipList.objects.create(ship='USS Test', country='Testland',
+                                            region='Testo', city='Test City',
+                                            from_country='Testland', year='2017',
+                                            ship_class='Tester', remarks='Just ship')
+        self.coordinates = ShipCoordinates.objects.create(ship=self.ship,
+                                                          latitude=15.2231,
+                                                          longitude=-33.5542,
+                                                          country='Some land')
 
+    def test_ship_coordinates_creation(self):
+        """test_ship_coordinates_creation() should return ship coordinates."""
+        self.assertTrue(isinstance(self.coordinates, ShipCoordinates))
+        self.assertEqual(self.coordinates.__str__(), 'lat: 15.2231, lng: -33.5542')
+
+    def test_latitude_field(self):
+        field_latitude = self.coordinates._meta.get_field('latitude').verbose_name
+        self.assertEqual(field_latitude, 'latitude')
+
+    def test_longitude_field(self):
+        field_longitude = self.coordinates._meta.get_field('longitude').verbose_name
+        self.assertEqual(field_longitude, 'longitude')
+
+    def test_country_field(self):
+        field_country = self.coordinates._meta.get_field('country').verbose_name
+        self.assertEqual(field_country, 'country')
+
+    def test_country_field_max_length(self):
+        max_length = self.coordinates._meta.get_field('country').max_length
+        self.assertEqual(max_length, 50)
