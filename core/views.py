@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Q
 
 from .models import ShipList
 from .forms import SearchFrom
@@ -18,7 +19,8 @@ def ship_search(request):
             cd = form.cleaned_data['query']
             # get attribute 'ship' and return list of values
             # results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
-            results = ShipList.objects.filter(ship__icontains=cd)
+            results = ShipList.objects.filter(
+            Q(ship__icontains=q) | Q(country__icontains=q)).distinct()
 
     return render(request,
                   'core/draft/search.html',
@@ -38,12 +40,14 @@ def get_ship(request):
     """
     if request.is_ajax():
         q = request.GET.get('term', '')
-        ships = ShipList.objects.filter(ship__icontains=q)
+        ships = ShipList.objects.filter(
+            Q(ship__icontains=q) | Q(country__icontains=q)).distinct()
         results = []
         for ship in ships:
             ship_json = {}
             ship_json = ship.ship
-            results.append(ship_json)
+            country_json = ship.country
+            results.append(ship_json, country_json)
         data = json.dumps(results)
     else:
         data = 'fail'
