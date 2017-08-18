@@ -20,7 +20,7 @@ def ship_search(request):
             # get attribute 'ship' and return list of values
             # results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
             results = ShipList.objects.filter(
-            Q(ship__icontains=q) | Q(country__icontains=q)).distinct()
+                Q(ship__icontains=cd) | Q(country__icontains=cd))
 
     return render(request,
                   'core/draft/search.html',
@@ -47,7 +47,9 @@ def get_ship(request):
             ship_json = {}
             ship_json = ship.ship
             country_json = ship.country
-            results.append(ship_json, country_json)
+            results.append(ship_json)
+            results.append(country_json)
+            results = list(set(results))
         data = json.dumps(results)
     else:
         data = 'fail'
