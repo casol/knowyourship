@@ -13,9 +13,10 @@ class ShipCoordinatesInline(admin.StackedInline):
 
 
 class ShipListAdmin(admin.ModelAdmin):
-    list_display = ('id', 'ship', 'country', 'region', 'city', 'from_country',
-                    'year', 'ship_class', 'ship_type', 'remarks')
+    list_display = ('ship', 'id', 'country', 'region', 'city', 'from_country',
+                    'year', 'ship_class', 'ship_type', 'remarks', 'url')
     list_filter = ('country', 'from_country')
+    prepopulated_fields = {'slug': ('ship',)}
     search_fields = list_display
     inlines = [
         ShipDetailsInline,

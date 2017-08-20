@@ -1,5 +1,8 @@
-{% extend 'core/draft/index.html %}
+{% extends "core/draft/index.html" %}
 
 {% block details %}
 <p>TEST!</p>
+<p>{{ ship.ship }}</p>
+
+<p>{{ ship.details.content }}</p>
 {% endblock %}

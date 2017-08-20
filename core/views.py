@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
 
@@ -6,6 +7,13 @@ from .models import ShipList
 from .forms import SearchFrom
 
 import json
+
+
+def ship_detail(request, ship):
+    ship = get_object_or_404(ShipList, slug=ship)
+    return render(request,
+                  'core/draft/details.html',
+                  {'ship': ship})
 
 
 def ship_search(request):

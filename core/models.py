@@ -1,17 +1,24 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class ShipList(models.Model):
     """Model of museum ships."""
-    ship = models.CharField(max_length=250)
-    country = models.CharField(max_length=250)
+    ship = models.CharField(max_length=200)
+    country = models.CharField(max_length=200)
     region = models.CharField(max_length=250, blank=True)
     city = models.CharField(max_length=250, blank=True)
-    from_country = models.CharField(max_length=250)
-    year = models.CharField(max_length=250)
-    ship_class = models.CharField(max_length=250, blank=True)
-    ship_type = models.CharField(max_length=250, blank=True)
-    remarks = models.CharField(max_length=250, blank=True)
+    from_country = models.CharField(max_length=200)
+    year = models.CharField(max_length=20)
+    ship_class = models.CharField(max_length=200, blank=True)
+    ship_type = models.CharField(max_length=200, blank=True)
+    remarks = models.CharField(max_length=200, blank=True)
+    url = models.URLField(max_length=200)
+    slug = models.SlugField()
+
+    def get_absolute_url(self):
+        return reverse('core:ship_detail',
+                       args=[self.slug])
 
     def __str__(self):
         return self.ship
@@ -19,7 +26,8 @@ class ShipList(models.Model):
 
 class ShipImage(models.Model):
     """Model responsible for storing images."""
-    ship_details = models.ForeignKey('ShipDetails', related_name='ship_details')
+    ship_details = models.ForeignKey(ShipList, blank=True,
+                                     null=True, related_name='ship_details')
     title = models.CharField(max_length=200)
     image_description = models.TextField(blank=True)
     artist = models.CharField(max_length=200)
