@@ -51,7 +51,7 @@
   });
 }
     </script>
-    <h1>{{ result.ship }}</h1>
+    <a href="{{ result.get_absolute_url }}">{{ result.ship }}</a>
     <p>{{ result.country }}</p>
     <h3>Ship Details:</h3>
     <p>{{ result.details.content }}</p>

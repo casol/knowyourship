@@ -1,15 +1,4 @@
-{% extends "core/draft/index.html" %}
-{% load staticfiles %}
-
-{% block details %}
-<p>TEST!</p>
-<h3>Google Maps Demo</h3>
-    <div id="map"></div>
-
-<h1>{{ ship.ship }}</h1>
-<h4>{{ ship.country }}</h4>
-<h1>DETAILS</h1>
-<script> function initMap() {
+ function initMap() {
             var uluru = {lat: {{ ship.coordinates.latitude }}, lng: {{ ship.coordinates.longitude }}};
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 14,
@@ -45,12 +34,4 @@
   marker.addListener('click', function() {
     infowindow.open(map, marker);
   });
-}</script>
-
-<p>{{ ship.details.content }}</p>
-
-<p>{{ ship.coordinates.latitude }}</p>
-<p>{{ ship.coordinates.longitude }}</p>
-
-
-{% endblock %}
+}

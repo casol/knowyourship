@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.db.models import Q
 
@@ -16,8 +17,14 @@ def ship_detail(request, ship):
                   {'ship': ship})
 
 
+def ship_list_by_country(request):
+    pass
+
+
 def ship_search(request):
-    """Returns query with ship object."""
+    """Returns query with ship object or queryset with list
+    of ships from requested country.
+    """
     form = SearchFrom()
     results = None
     cd = None
@@ -27,8 +34,12 @@ def ship_search(request):
             cd = form.cleaned_data['query']
             # get attribute 'ship' and return list of values
             # results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
-            results = ShipList.objects.filter(
-                Q(ship__icontains=cd) | Q(country__icontains=cd))
+            try:
+                result = ShipList.objects.get(ship__icontains=cd)
+                if result:
+                    return redirect(result)
+            except ShipList.DoesNotExist:
+                results = ShipList.objects.filter(country__icontains=cd)
 
     return render(request,
                   'core/draft/search.html',
