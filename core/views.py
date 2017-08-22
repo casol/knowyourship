@@ -66,9 +66,10 @@ def get_ship(request):
             ship_json = {}
             ship_json = ship.ship
             country_json = ship.country
+            if country_json not in results:
+                results.append(country_json)
             results.append(ship_json)
-            results.append(country_json)
-            results = list(set(results))
+            # results = list(set(results))
         data = json.dumps(results)
     else:
         data = 'fail'
