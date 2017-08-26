@@ -8,8 +8,9 @@ from .models import ShipList
 from .forms import SearchFrom
 
 import json
+from haystack.query import SearchQuerySet
 
-
+"""
 def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
     return render(request,
@@ -19,27 +20,21 @@ def ship_detail(request, ship):
 
 def ship_list_by_country(request):
     pass
+"""
 
 
 def ship_search(request):
     """Returns query with ship object or queryset with list
     of ships from requested country.
     """
-    form = SearchFrom()
     results = None
     cd = None
+    form = SearchFrom()
     if 'query' in request.GET:
         form = SearchFrom(request.GET)
         if form.is_valid():
             cd = form.cleaned_data['query']
-            # get attribute 'ship' and return list of values
-            # results = ShipList.objects.filter(ship__icontains=cd).values_list('ship', flat=True)
-            try:
-                result = ShipList.objects.get(ship__icontains=cd)
-                if result:
-                    return redirect(result)
-            except ShipList.DoesNotExist:
-                results = ShipList.objects.filter(country__icontains=cd)
+            results = SearchQuerySet().models(ShipList).filter(content=cd).load_all()
 
     return render(request,
                   'core/draft/search.html',
@@ -47,7 +42,7 @@ def ship_search(request):
                    'results': results,
                    'cd': cd})
 
-
+'''
 def get_ship(request):
     """jQuery Autocomplete function makes ajax call by itself.
     When user types a string in autocomplete input field, an AJAX
@@ -75,3 +70,4 @@ def get_ship(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+'''

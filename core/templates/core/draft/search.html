@@ -2,17 +2,22 @@
 
 
 {% block search %}
-    <form action="" method="get">
-        {{ form }}
-        <input type="submit" value="Submit" />
-    </form>
+    {% if "query" in request.GET %}
+    {% for result in results %}
+        {% with ship=result.object %}
+            <h4><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></h4>
 
-{% for result in results %}
-    <h3>Ship Details:</h3>
-    <a href="{{ result.get_absolute_url }}">{{ result.ship }}</a>
-    <p>{{ result.country }}</p>
-    <p>{{ result.coordinates.latitude }}</p>
-    <p>{{ result.coordinates.longitude }}</p>
-    <br/>
-{% endfor %}
+            <p>{{ ship.country }}</p>
+        {% endwith %}
+    {% empty %}
+        <p>There are no results for your query.</p>
+    {% endfor %}
+
+    {% else %}
+    <h1>Search for posts</h1>
+    <form action="." method="get">
+        {{ form.as_p }}
+        <input type="submit" value="Search">
+    </form>
+    {% endif %}
 {% endblock %}
