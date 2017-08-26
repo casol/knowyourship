@@ -190,4 +190,8 @@ secrets.json
 pyvenv.cfg
 pip-selfcheck.json
 
+###Solr###
+solr-4.10.4
+solr/
+
 # End of https://www.gitignore.io/api/django,python,pycharm,virtualenv
