@@ -5,9 +5,9 @@
     {% if "query" in request.GET %}
     {% for result in results %}
         {% with ship=result.object %}
-            <h4><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></h4>
+            <p>{{ ship.ship }}</p>
+            <p><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></p>
 
-            <p>{{ ship.country }}</p>
         {% endwith %}
     {% empty %}
         <p>There are no results for your query.</p>

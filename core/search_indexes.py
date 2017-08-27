@@ -3,9 +3,7 @@ from .models import ShipList
 
 
 class ShipListIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
-    ship = indexes.CharField(model_attr='ship')
-    country = indexes.CharField(model_attr='country')
+    text = indexes.CharField(document=True, model_attr='ship')
 
     def get_model(self):
         return ShipList

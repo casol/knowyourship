@@ -5,12 +5,12 @@ from django.http import HttpResponse
 from django.db.models import Q
 
 from .models import ShipList
-from .forms import SearchFrom
+from .forms import SearchForm
 
 import json
 from haystack.query import SearchQuerySet
 
-"""
+
 def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
     return render(request,
@@ -20,7 +20,6 @@ def ship_detail(request, ship):
 
 def ship_list_by_country(request):
     pass
-"""
 
 
 def ship_search(request):
@@ -29,12 +28,12 @@ def ship_search(request):
     """
     results = None
     cd = None
-    form = SearchFrom()
+    form = SearchForm()
     if 'query' in request.GET:
-        form = SearchFrom(request.GET)
+        form = SearchForm(request.GET)
         if form.is_valid():
-            cd = form.cleaned_data['query']
-            results = SearchQuerySet().models(ShipList).filter(content=cd).load_all()
+            cd = form.cleaned_data
+            results = SearchQuerySet().models(ShipList).filter(content=cd['query']).load_all()
 
     return render(request,
                   'core/draft/search.html',
