@@ -1,2 +1,2 @@
-{{ objects.ship }}
-{{ objects.country }}
+{{ object.ship }}
+{{ object.country }}
