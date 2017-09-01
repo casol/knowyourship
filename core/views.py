@@ -42,15 +42,15 @@ def ship_search(request):
                    'cd': cd})
 
 
-def autocomplete(request):
+def get_ship(request):
     # haystack autocomplete in progress
-    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('q', ''))[:5]
-    suggestions = [result.title for result in sqs]
+    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('term', ''))[:5]
+    suggestions = [result.content_auto for result in sqs]
     # Make sure you return a JSON object, not a bare list.
     # Otherwise, you could be vulnerable to an XSS attack.
-    the_data = json.dumps({
-        'results': suggestions
-    })
+    the_data = json.dumps(
+         suggestions
+    )
     return HttpResponse(the_data, content_type='application/json')
 
 '''
