@@ -8,6 +8,7 @@ from .models import ShipList
 from .forms import SearchForm
 
 import json
+import itertools
 from haystack.query import SearchQuerySet
 
 
@@ -44,12 +45,38 @@ def ship_search(request):
 
 def get_ship(request):
     # haystack autocomplete in progress
-    sqs = SearchQuerySet().autocomplete(content_auto=request.GET.get('term', ''))[:5]
-    suggestions = [result.content_auto for result in sqs]
+
+    sqs = SearchQuerySet().autocomplete(text=request.GET.get('term', ''))[:5]
+    suggestions = [result.text for result in sqs]
+    clean_sug = []
+    for ship in suggestions:
+        clean_sug.append(ship.split('\n'))
+    clean_sug = list(itertools.chain.from_iterable(clean_sug))
+    clean_sug = list(filter(None, clean_sug))
+
+    """
+    q = request.GET.get('term', '')
+    sqs = SearchQuerySet().models(ShipList)
+    sqs1 = sqs.filter(ship_auto=q)
+    sqs2 = sqs.filter(country_auto=q)
+    sqs = sqs1 | sqs2
+    suggestions = []
+    # list of country
+    # list(set(source))
+    country_list = ShipList.objects.all().values_list('country', flat=True)
+    country_list = list(set(country_list))
+    #suggestions = [result.ship_auto for result in sqs]
+    for result in sqs:
+        suggestions.append(result.ship_auto)
+        if result.country_auto not in suggestions:
+            suggestions.append(result.country_auto)
+            if result.country_auto in country_list:
+                suggestions.insert(0, result.country_auto)
+    """
     # Make sure you return a JSON object, not a bare list.
     # Otherwise, you could be vulnerable to an XSS attack.
     the_data = json.dumps(
-         suggestions
+        clean_sug
     )
     return HttpResponse(the_data, content_type='application/json')
 

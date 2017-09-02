@@ -3,9 +3,10 @@ from .models import ShipList
 
 
 class ShipListIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.EdgeNgramField(document=True, use_template=True)
     # autocomplete with one field?
-    content_auto = indexes.EdgeNgramField(model_attr='ship')
+    # ship_auto = indexes.EdgeNgramField(model_attr='ship')
+    # country_auto = indexes.EdgeNgramField(model_attr='country')
 
     def get_model(self):
         return ShipList
