@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from django.db.models import Q
+from django.http import JsonResponse
 
 from .models import ShipList
 from .forms import SearchForm
@@ -44,41 +44,39 @@ def ship_search(request):
 
 
 def get_ship(request):
-    # haystack autocomplete in progress
-
-    sqs = SearchQuerySet().autocomplete(text=request.GET.get('term', ''))[:5]
-    suggestions = [result.text for result in sqs]
-    clean_sug = []
-    for ship in suggestions:
-        clean_sug.append(ship.split('\n'))
-    clean_sug = list(itertools.chain.from_iterable(clean_sug))
-    clean_sug = list(filter(None, clean_sug))
-
+    """jQuery Autocomplete function makes ajax call by itself.
+    When user types a string in autocomplete input field, an AJAX
+    call is made with the ID of the input field to autocomplete
+    function of Jquery-ui. In the source property, a url is supplied
+    which maps to a django view. Then in view we query the model
+    with the parameter named 'term'.
     """
-    q = request.GET.get('term', '')
-    sqs = SearchQuerySet().models(ShipList)
-    sqs1 = sqs.filter(ship_auto=q)
-    sqs2 = sqs.filter(country_auto=q)
-    sqs = sqs1 | sqs2
-    suggestions = []
-    # list of country
-    # list(set(source))
+    # haystack autocomplete in progress
+    query = request.GET.get('term', '')
+    sqs = SearchQuerySet().autocomplete(text=query)[:5]
+    suggestions = [result.text for result in sqs]
+    # list of all country from ShipList model
     country_list = ShipList.objects.all().values_list('country', flat=True)
     country_list = list(set(country_list))
-    #suggestions = [result.ship_auto for result in sqs]
-    for result in sqs:
-        suggestions.append(result.ship_auto)
-        if result.country_auto not in suggestions:
-            suggestions.append(result.country_auto)
-            if result.country_auto in country_list:
-                suggestions.insert(0, result.country_auto)
-    """
+    # split string into a list e.g. "USS Becun\nUnited States\n" -> ["USS Becun, "United", ""]
+    results = [ship.split('\n') for ship in suggestions]
+    # make list out of list of lists e.g. [[1, 2],[4, 5]] -> [1, 2, 4, 5]
+    results = list(itertools.chain.from_iterable(results))
+    # remove empty strings from a list
+    results = list(set(filter(None, results)))
+    # check if query contains country name
+    if any(query.title() in s for s in country_list):
+        # compere two lists and return matches
+        compere = list(set(results) & set(country_list))
+        results = []
+        # return country
+        results = compere
+    else:
+        # if query contains ship name remove country from results
+        results = list(set(results) - set(country_list))
     # Make sure you return a JSON object, not a bare list.
-    # Otherwise, you could be vulnerable to an XSS attack.
-    the_data = json.dumps(
-        clean_sug
-    )
-    return HttpResponse(the_data, content_type='application/json')
+    # if other than dict you must set the safe parameter to False
+    return JsonResponse(results, safe=False)
 
 '''
 def get_ship(request):

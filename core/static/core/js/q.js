@@ -4,7 +4,7 @@
       select: function (event, ui) { //item selected
         AutoCompleteSelectHandler(event, ui)
       },
-      minLength: 2,
+      minLength: 3,
     });
   });
 
