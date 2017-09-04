@@ -1,13 +1,11 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.http import HttpResponse
 from django.http import JsonResponse
 
 from .models import ShipList
 from .forms import SearchForm
 
-import json
 import itertools
 from haystack.query import SearchQuerySet
 
@@ -20,7 +18,7 @@ def ship_detail(request, ship):
 
 
 def ship_list_by_country(request):
-    pass
+    return render(request, 'core/draft/maps.html')
 
 
 def ship_search(request):
@@ -77,33 +75,3 @@ def get_ship(request):
     # Make sure you return a JSON object, not a bare list.
     # if other than dict you must set the safe parameter to False
     return JsonResponse(results, safe=False)
-
-'''
-def get_ship(request):
-    """jQuery Autocomplete function makes ajax call by itself.
-    When user types a string in autocomplete input field, an AJAX
-    call is made with the ID of the input field to autocomplete
-    function of Jquery-ui. In the source property, a url is supplied
-    which maps to a django view. Then in view we query the model
-    with the parameter named 'term', eg. the term contains
-    “HMS”, a list is generated containing the 'term'.
-    """
-    if request.is_ajax():
-        q = request.GET.get('term', '')
-        ships = ShipList.objects.filter(
-            Q(ship__icontains=q) | Q(country__icontains=q)).distinct()
-        results = []
-        for ship in ships:
-            ship_json = {}
-            ship_json = ship.ship
-            country_json = ship.country
-            if country_json not in results:
-                results.append(country_json)
-            results.append(ship_json)
-            # results = list(set(results))
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
-'''
