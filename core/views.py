@@ -33,12 +33,12 @@ def ship_search(request):
         if form.is_valid():
             cd = form.cleaned_data
             results = SearchQuerySet().models(ShipList).filter(content=cd['query']).load_all()
-
+            locations = [result.object.ship  for result in results]
     return render(request,
                   'core/draft/search.html',
                   {'form': form,
                    'results': results,
-                   'cd': cd})
+                   'locations': locations})
 
 
 def get_ship(request):
@@ -52,8 +52,8 @@ def get_ship(request):
     # haystack autocomplete in progress
     query = request.GET.get('term', '')
     sqs = SearchQuerySet().autocomplete(text=query)[:5]
-    suggestions = [result.text for result in sqs]
-    # list of all country from ShipList model
+    suggestions = [result.text for result in sqs]  # <---- RESULT.OBJECT.SHIP RESULT.OBJECT.country !!
+    # list of all country from ShipList model      # omg... just need to be sugg_ship and sugg_contry
     country_list = ShipList.objects.all().values_list('country', flat=True)
     country_list = list(set(country_list))
     # split string into a list e.g. "USS Becun\nUnited States\n" -> ["USS Becun, "United", ""]

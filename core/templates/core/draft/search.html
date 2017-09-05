@@ -1,14 +1,24 @@
 {% extends "core/draft/index.html" %}
-
+{% load staticfiles %}
 
 {% block search %}
+<div id="map"></div>
     {% if "query" in request.GET %}
     {% for result in results %}
         {% with ship=result.object %}
             <p>{{ ship.ship }}</p>
             <p><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></p>
-
+            <script>
+            var locations = [
+            ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>', {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }}, {{ forloop.counter }}]];
+            </script>
+             <script src="{% static 'core/js/google_maps.js' %}"></script>
         {% endwith %}
+        {% for location in locations %}
+            <p> {{ location }}</p>
+        {% endfor %}
+        {{ locations }}
+
     {% empty %}
         <p>There are no results for your query.</p>
     {% endfor %}
@@ -19,5 +29,10 @@
         {{ form }}
         <input type="submit" value="Search">
     </form>
-    {% endif %}
+    <script>
+     var locations = [
+     ['{{ ship.ship }}', {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }}, {{ forloop.counter }}]];
+    </script>
+
+      {% endif %}
 {% endblock %}
