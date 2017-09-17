@@ -19,7 +19,7 @@ if (navigator.geolocation) {
     };
 
     infoWindow.setPosition(pos);
-    infoWindow.setContent('Location found.');
+    infoWindow.setContent('YOU ARE HERE.');
     infoWindow.open(map);
     map.setCenter(pos);
   }, function() {

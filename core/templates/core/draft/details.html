@@ -3,54 +3,21 @@
 
 {% block details %}
 <a href="http://127.0.0.1:8000/core">MAIN PAGE!</a>
-<h3>Google Maps Demo</h3>
-    <div id="map"></div>
-
-<h1>{{ ship.ship }}</h1>
-<h4>{{ ship.country }}</h4>
-<h1>DETAILS</h1>
-<script> function initMap() {
-            var uluru = {lat: {{ ship.coordinates.latitude }}, lng: {{ ship.coordinates.longitude }}};
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 14,
-              center: uluru
-            });
-            var marker = new google.maps.Marker({
-              position: uluru,
-              map: map
-            });
-
-  var contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">{{ result.ship }}</h1>'+
-      '<div id="bodyContent">'+
-      '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-      'Heritage Site.</p>'+
-      '<p>Attribution: Uluru, <a href="http://127.0.0.1:8000/core/?query=HMAS+Advance">'+
-      'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-      '(last visited June 22, 2009).</p>'+
-      '</div>'+
-      '</div>';
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-
-  var marker = new google.maps.Marker({
-    position: uluru,
-    map: map,
-    title: 'Uluru (Ayers Rock)'
-  });
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
-}</script>
-
-<p>{{ ship.details.content }}</p>
-
-<p>{{ ship.coordinates.latitude }}</p>
-<p>{{ ship.coordinates.longitude }}</p>
-
-
+    <h3>Google Maps Demo</h3>
+        <div id="map"></div>
+            <script>
+                var ship_name = '{{ ship.ship }}';
+                var url = '{{ ship.url }}';
+                var country = '{{ ship.country }}';
+                var latitude = {{ ship.coordinates.latitude }};
+                var longitude = {{ ship.coordinates.longitude }};
+            </script>
+                <script src="{% static 'core/js/ship_details_map.js' %}"></script>
+                    <h1>{{ ship.ship }}</h1>
+                        <h4>{{ ship.country }}</h4>
+                            <h3>DETAILS</h3>
+                                <p>{{ ship.details.content }}</p>
+                                <p>{{ ship.url }}</p>
+                                <p>{{ ship.coordinates.latitude }}</p>
+                                <p>{{ ship.coordinates.longitude }}</p>
 {% endblock %}
