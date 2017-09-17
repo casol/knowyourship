@@ -33,12 +33,10 @@ def ship_search(request):
         if form.is_valid():
             cd = form.cleaned_data
             results = SearchQuerySet().models(ShipList).filter(content=cd['query']).load_all()
-            locations = [result.object.ship  for result in results]
     return render(request,
                   'core/draft/search.html',
                   {'form': form,
-                   'results': results,
-                   'locations': locations})
+                   'results': results})
 
 
 def get_ship(request):
