@@ -40,7 +40,7 @@ function initMap() {
     AutoCenter();
 // zoom for only one location
     var listener = google.maps.event.addListener(map, "idle", function() {
-      if (map.getZoom() > 16) map.setZoom(16);
+      if (map.getZoom() > 14) map.setZoom(14);
       google.maps.event.removeListener(listener);
       });
 }

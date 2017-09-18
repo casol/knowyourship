@@ -26,7 +26,7 @@ function initMap() {
     var marker = new google.maps.Marker({
       position: ship,
       map: map,
-      title: ship_name + ' ' + country
+      title: ship_name + ' ' + '(' + country + ')'
     });
       marker.addListener('click', function() {
       infowindow.open(map, marker);

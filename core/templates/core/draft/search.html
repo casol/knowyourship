@@ -23,8 +23,8 @@
             </script>
                 <div id="map"></div>
                 {% if "query" in request.GET %}
-                    <script src="{% static 'core/js/google_maps.js' %}"></script>
+                    <script src="{% static 'core/js/ship_search_map.js' %}"></script>
                 {% else %}
-                    <script src="{% static 'core/js/map_geolocation.js' %}"></script>
+                    <script src="{% static 'core/js/geolocation_map.js' %}"></script>
                 {% endif %}
 {% endblock %}
