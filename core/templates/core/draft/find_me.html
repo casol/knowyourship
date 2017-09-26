@@ -4,15 +4,27 @@
 {% block maps %}
 <h1>FIND ME!</h1>
 <h3> here you have all ships museum in country you are in!</h3>
-<div id="map"></div>
+
+
+<script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 <script>
- var locations = [
-      ['London Eye', 51.503510, -0.119434, 5],
-      ['Charing Cross', 51.507383, -0.127202, 4],
-      ['Leicester Square', 51.511336, -0.128361, 3],
-      ['Euston Station', 51.526825, -0.132395, 2],
-      ];
+jQuery(document).ready(function($) {
+	alert("Your location is: " + geoplugin_countryName());
+});
 </script>
-<script src="{% static 'core/js/ship_search.js' %}"></script>
+
+<script>
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+        $.getJSON('http://ws.geonames.org/countryCode', {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            type: 'JSON'
+        }, function(result) {
+            alert(result.countryName);
+        });
+    });
+}​
+</script>
 
 {% endblock %}
