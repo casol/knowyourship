@@ -17,8 +17,8 @@ def ship_detail(request, ship):
                   {'ship': ship})
 
 
-def ship_list_by_country(request):
-    return render(request, 'core/draft/maps.html')
+def find_me(request):
+    return render(request, 'core/draft/find_me.html')
 
 
 def ship_search(request):
