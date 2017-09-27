@@ -5,7 +5,6 @@
 <h1>FIND ME!</h1>
 <h3> here you have all ships museum in country you are in!</h3>
 
-
 <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 <script>
 jQuery(document).ready(function($) {
@@ -13,18 +12,72 @@ jQuery(document).ready(function($) {
 });
 </script>
 
+
+{% comment "Optional note" %}
+<p id="demo"></p>
+
+{# returns country but in local language #}
 <script>
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-        $.getJSON('http://ws.geonames.org/countryCode', {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            type: 'JSON'
-        }, function(result) {
-            alert(result.countryName);
-        });
+var x = document.getElementById("demo");
+   if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position){
+
+        initialize(position.coords.latitude,position.coords.longitude);
     });
-}​
+}
+
+function initialize(lat,lng) {
+    //directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+    //directionsService = new google.maps.DirectionsService();
+    var latlng = new google.maps.LatLng(lat, lng);
+
+    //alert(latlng);
+    getLocation(latlng);
+}
+
+function getLocation(latlng){
+
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    var loc = getCountry(results);
+                    x.innerHTML = loc;
+                }
+            }
+        });
+
+}
+
+function getCountry(results)
+{
+    for (var i = 0; i < results[0].address_components.length; i++)
+    {
+        var shortname = results[0].address_components[i].short_name;
+        var longname = results[0].address_components[i].long_name;
+        var type = results[0].address_components[i].types;
+        if (type.indexOf("country") != -1)
+        {
+            if (!isNullOrWhitespace(shortname))
+            {
+                return longname;
+            }
+            else
+            {
+                return longname;
+            }
+        }
+    }
+
+}
+
+function isNullOrWhitespace(text) {
+    if (text == null) {
+        return true;
+    }
+    return text.replace(/\s/gi, '').length < 1;
+}
 </script>
+{% endcomment %}
 
 {% endblock %}
