@@ -18,7 +18,8 @@ def ship_detail(request, ship):
 
 
 def find_me(request):
-    return render(request, 'core/draft/find_me.html')
+    user_location = request.POST.get('find_me')
+    return render(request, 'core/draft/find_me.html', {'user_location': user_location})
 
 
 def ship_search(request):
