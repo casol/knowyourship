@@ -18,8 +18,15 @@ def ship_detail(request, ship):
 
 
 def find_me(request):
-    user_location = request.POST.get('find_me')
-    return render(request, 'core/draft/find_me.html', {'user_location': user_location})
+    query = request.GET.get('query', '')
+    if query:
+        results = SearchQuerySet().models(ShipList).filter(content=query).load_all()
+    else:
+        results = None
+    return render(request,
+                  'core/draft/find_me.html',
+                  {'results': results,
+                   'query': query})
 
 
 def ship_search(request):

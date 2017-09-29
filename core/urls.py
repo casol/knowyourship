@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^(?P<ship>[-\w]+)/$',
         views.ship_detail,
         name='ship_detail'),
-    # testing markers
+
+    # find_me
     url(r'^find_me',
         views.find_me,
         name='find_me'),

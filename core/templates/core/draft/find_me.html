@@ -4,21 +4,27 @@
 {% block maps %}
 <h1>FIND ME!</h1>
 <h3> here you have all ships museum in country you are in!</h3>
-<form id = "geolocation" action="/core/find_me" method="POST" >
-            {% csrf_token %}
-        <input type="text" id = "find_me" name="find_me" value="" />
-        <input type="submit" />
 
+<form action="" method="GET">
+    <input type="text" id="location" name="query" />
+    <input type="submit" value="Search">
 </form>
-<p>test</p>
-{% for user in user_location %}
-    <p>{{ user }}</p>
+
+<h3>test results query search</h3>
+{% for result in results %}
+    {% with ship=result.object %}
+        <p>{{ ship.ship }}</p>
+    {% endwith %}
 {% endfor %}
 
-<p>tu dziala</p>
+<h3>test submitted query search</h3>
+<p>{{ query }}</p>
+
+<h3>test geolocation script country</h3>
 <p id="demo"></p>
 
 <script>
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -26,15 +32,18 @@ function getLocation() {
                 for (var i = 0; i < result['results'][0]['address_components'].length; i++) {
                     if (result['results'][0]['address_components'][i]['types'][0] == "country") {
                         alert(result['results'][0]['address_components'][i]['long_name']);
+                        var pos = result['results'][0]['address_components'][i]['long_name'];
                     }
                 }
             });
         });
     }
 }
-getLocation();
+
+document.getElementById("location").value = getLocation();
 </script>
 
-<script src="{% static 'core/js/find_me.js' %}"></script>
+
+
 
 {% endblock %}
