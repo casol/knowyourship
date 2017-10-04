@@ -5,9 +5,9 @@
 <h1>FIND ME!</h1>
 <h3> here you have all ships museum in country you are in!</h3>
 
-<form action="" method="GET">
-    <input type="text" id="location" name="query" />
-    <input type="submit" value="Search">
+<form id="geolocation" action="" method="GET">
+    <input type="text" id="location" name="query" required/>
+    <input type="submit" value="Search" id="huj">
 </form>
 
 <h3>test results query search</h3>
@@ -17,33 +17,21 @@
     {% endwith %}
 {% endfor %}
 
-<h3>test submitted query search</h3>
-<p>{{ query }}</p>
-
-<h3>test geolocation script country</h3>
-<p id="demo"></p>
-
 <script>
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            $.post("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&sensor=false", function (result) {
-                for (var i = 0; i < result['results'][0]['address_components'].length; i++) {
-                    if (result['results'][0]['address_components'][i]['types'][0] == "country") {
-                        alert(result['results'][0]['address_components'][i]['long_name']);
-                        var pos = result['results'][0]['address_components'][i]['long_name'];
-                    }
-                }
-            });
-        });
-    }
-}
-
-document.getElementById("location").value = getLocation();
+$.get("http://ip-api.com/json", function(response) {
+document.getElementById("location").value = response.country;
+}, "json");
 </script>
-
-
-
+{% comment "loop" %}
+<script>
+function submitForm()
+{
+   document.getElementById("geolocation").submit();
+}
+window.onload=submitForm;
+</script>
+{% endcomment %}
+<p>{{ country }}</p>
+<p>document.getElementById("geolocation").submit();</p>
 
 {% endblock %}

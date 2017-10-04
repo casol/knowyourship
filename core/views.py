@@ -9,6 +9,8 @@ from .forms import SearchForm
 import itertools
 from haystack.query import SearchQuerySet
 
+import requests
+
 
 def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
@@ -27,6 +29,17 @@ def find_me(request):
                   'core/draft/find_me.html',
                   {'results': results,
                    'query': query})
+"""
+def find_me_by_ip(request):
+    geolocation = requests.get('http://ip-api.io/api/json')
+    geolocation_json = geolocation.json()
+    country = geolocation_json['country_name']
+    results = SearchQuerySet().models(ShipList).filter(content=country).load_all()
+    return render(request,
+                  'core/draft/find_me.html',
+                  {'results': results,
+                   'country': country})
+"""
 
 
 def ship_search(request):
