@@ -1,82 +1,161 @@
-{% load staticfiles %}
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 
-<head>
+  <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Know Your Ship</title>
+    <title>Stylish Portfolio - Start Bootstrap Template</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
+        <!-- Bootstrap Core CSS -->
+    <link href="{% static "core/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "core/vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom CSS -->
     <link href="{% static "core/css/knowyourship.css" %}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <script src="https://use.fontawesome.com/59133845eb.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <!-- Google Maps -->
+    <style>
+      #map {
+        width: 100%;
+        height: 400px;
+        }
+    </style>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- Navigation -->
-    {% include "core/navigation.html" %}
+     {% include "core/navigation.html" %}
 
     <!-- Header -->
-    {% block search %}
-
-    {% endblock %}
-
+    <header class="header" id="top">
+      <div class="text-vertical-center">
+        <h1>Start Bootstrap</h1>
+        <h3>Free Bootstrap Themes &amp; Templates</h3>
+        <br>
+        <a href="#about" class="btn btn-dark btn-lg js-scroll-trigger">Find Out More</a>
+          <form action="#about" method="get">
+            {{ form }}
+            <input type="submit" value="Search" >
+        </form>
+      </div>
+    </header>
     <!-- About -->
-    {% include "core/about.html" %}
+    <section id="about" class="about">
+            <script>
+                 var locations = [
+                    {% for result in results %}
+                        {% with ship=result.object %}
+                            ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
+                            {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
+                            {{ forloop.counter }}],
+                        {% endwith %}
+                    {% empty %}
+                        <div id="map"></div>
+                    {% endfor %}
+                    ];
+            </script>
+                <div id="map"></div>
+                {% if "query" in request.GET %}
+                    <script src="{% static 'core/js/ship_search_map.js' %}"></script>
+                {% else %}
+                    <script src="{% static 'core/js/geolocation_map.js' %}"></script>
+                {% endif %}
+    </section>
 
     <!-- Services -->
     {% include "core/services.html" %}
 
-    <!-- Callout -->
-    {% include "core/callout.html" %}
-
-    {% block content %}
     <!-- Portfolio -->
-    {% include "core/portfolio.html" %}
-    {% endblock %}
-    <!-- Call to Action -->
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 mx-auto text-center">
+            <h2>Our Work</h2>
+            <hr class="small">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                  <a href="#">
+                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-1.jpg" %}">
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                  <a href="#">
+                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-2.jpg" %}">
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                  <a href="#">
+                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-3.jpg" %}">
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                  <a href="#">
+                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-4.jpg" %}">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- /.row (nested) -->
+            <a href="#" class="btn btn-dark">View More Items</a>
+          </div>
+          <!-- /.col-lg-10 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container -->
+    </section>
 
+    <!-- Call to Action -->
+    <aside class="call-to-action bg-primary text-white">
+      <div class="container text-center">
+        <h3>The buttons below are impossible to resist.</h3>
+        <a href="#" class="btn btn-lg btn-light">Click Me!</a>
+        <a href="#" class="btn btn-lg btn-dark">Look at Me!</a>
+      </div>
+    </aside>
 
     <!-- Map -->
-    {% include "core/map.html" %}`
+    {% include "core/map.html" %}
 
     <!-- Footer -->
     {% include "core/footer.html" %}
 
 
-    <!-- jQuery -->
-    <script src="{% static "core/js/jquery.js" %}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{% static "core/vendor/popper/popper.min.js" %}"></script>
+    <script src="{% static "core/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
+    <!-- Plugin JavaScript -->
+    <script src="{% static "core/vendor/jquery-easing/jquery.easing.min.js" %}"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="{% static "core/js/front_page.js" %}"></script>
+    <!-- Custom scripts for this template -->
+    <script src="{% static "core/js/knowyourship.js" %}"></script>
 
-</body>
+    <script src="{% static 'core/js/autocomplete.js' %}"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAybkt5k4GdqP2FCq2v4svRiY-EzrqJsH0&callback=initMap">
+    </script>
+
+  </body>
 
 </html>
