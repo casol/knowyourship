@@ -19,9 +19,4 @@ urlpatterns = [
         views.find_me,
         name='find_me'),
 
-    # boot4
-    url(r'^boot',
-        views.boot,
-        name='boot')
-
 ]

@@ -1,0 +1,47 @@
+{% extends "core/index.html" %}
+{% load staticfiles %}
+    <!-- Portfolio -->
+    {% block content %}
+    <section id="portfolio" class="portfolio">
+
+            <script>
+                var ship_name = '{{ ship.ship }}';
+                var url = '{{ ship.url }}';
+                var country = '{{ ship.country }}';
+                var latitude = {{ ship.coordinates.latitude }};
+                var longitude = {{ ship.coordinates.longitude }};
+            </script>
+        <script src="{% static 'core/js/ship_details_map.js' %}"></script>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                  <a href="#">
+                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-1.jpg" %}">
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="portfolio-item">
+                    <h2>{{ ship.ship }}</h2>
+                    <p>{{ ship.details.content }}</p>
+                    <p>{{ ship.url }}</p>
+                    <p>{{ ship.coordinates.latitude }}</p>
+                    <p>{{ ship.coordinates.longitude }}</p>
+                </div>
+              </div>
+            </div>
+            <!-- /.row (nested) -->
+            <a href="{{ ship.url }}" class="btn btn-dark">View More Items</a>
+          </div>
+          <!-- /.col-lg-10 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container -->
+    </section>
+
+    {% endblock %}

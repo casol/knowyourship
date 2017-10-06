@@ -12,15 +12,10 @@ from haystack.query import SearchQuerySet
 import requests
 
 
-def boot(request):
-    return render(request,
-                  'core/base.html')
-
-
 def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
     return render(request,
-                  'core/draft/details.html',
+                  'core/portfolio.html',
                   {'ship': ship})
 
 
@@ -60,7 +55,7 @@ def ship_search(request):
             cd = form.cleaned_data
             results = SearchQuerySet().models(ShipList).filter(content=cd['query']).load_all()
     return render(request,
-                  'core/base.html',
+                  'core/index.html',
                   {'form': form,
                    'results': results})
 
