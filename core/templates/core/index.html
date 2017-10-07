@@ -39,14 +39,22 @@
       <div class="text-vertical-center">
         <h1>Know Your Ship</h1>
         <h3>Find ships museum all over the world!</h3>
-        <br>
-
-          <form action="#contact" method="get">
-            {{ form }}
-            <input type="submit" value="Search" class="btn btn-dark btn-lg js-scroll-trigger" >
-        </form>
+        <div class="featurette">
+           <div class="featurette-inner text-center">
+              <form action="#contact" method="get" role="form" class="search has-button">
+                <div class="form-group">
+                    {{ form }}
+                    <input type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
+                </div>
+                 <!-- /form-group -->
+              </form>
+              <!-- /.max-width on this form -->
+           </div>
+           <!-- /.featurette-inner (display:table-cell) -->
+        </div>
       </div>
     </header>
+
     <hr>
     <!-- Map -->
     <section id="contact" class="map">
