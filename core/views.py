@@ -54,6 +54,13 @@ def ship_search(request):
         if form.is_valid():
             cd = form.cleaned_data
             results = SearchQuerySet().models(ShipList).filter(content=cd['query']).load_all()
+            # check if results contain only one ship
+            if len(results) == 1:
+                ship = [result.object.id for result in results][0]
+                # get ship object
+                ship = ShipList.objects.get(id=ship)
+                # By passing object, get_absolute_url() method will be called to figure out the redirect URL
+                return redirect(ship)
     return render(request,
                   'core/index.html',
                   {'form': form,

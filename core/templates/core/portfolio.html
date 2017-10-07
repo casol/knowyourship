@@ -17,20 +17,17 @@
           <div class="col">
 
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="portfolio-item">
                   <a href="#">
-                    <img class="img-portfolio img-fluid" src="{% static "core/img/portfolio-1.jpg" %}">
+                    <img class="img-portfolio img-fluid " src="{% static "core/img/USS_Arizona.jpg" %}">
                   </a>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <div class="portfolio-item">
                     <h2>{{ ship.ship }}</h2>
-                    <p>{{ ship.details.content }}</p>
-                    <p>{{ ship.url }}</p>
-                    <p>{{ ship.coordinates.latitude }}</p>
-                    <p>{{ ship.coordinates.longitude }}</p>
+                    <p align="justify">{{ ship.details.content }}</p>
                 </div>
               </div>
             </div>
