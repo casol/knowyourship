@@ -24,7 +24,7 @@ body {
 }
 
 .text-vertical-center h1 {
-    font-size: 4.5em;
+    font-size: 8.5em;
     font-weight: 700;
     margin: 0;
     padding: 0;
@@ -317,3 +317,8 @@ footer {
         margin: 0;
     }
 }
+
+.call-to-action {
+    background-color: #003791;
+    }
+
