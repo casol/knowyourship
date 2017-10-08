@@ -37,19 +37,17 @@
     <!-- Header-Search -->
     <header class="header" id="top">
       <div class="text-vertical-center">
-          <h1>Know Your Ship</h1>
+        <h1>Know Your Ship</h1>
         <h3>Find ships museum all over the world!</h3>
         <div class="featurette">
            <div class="featurette-inner text-center">
-              <form action="#contact" method="get" role="form" class="search has-button">
+              <form action="" method="get" role="form" class="search has-button">
                 <div class="form-group">
                     {{ form }}
                     {% if form == None %}
-
-                    <h2><a href="#about" class="btn-block">Go back and search more!</a></h2>
-
+                    <h3><a href="#about" class="btn-block">Go back and search more!</a></h3>
                     {% else %}
-                    <input type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
+                    <input id="sub" type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
                     {% endif %}
                 </div>
                  <!-- /form-group -->
@@ -59,6 +57,7 @@
            <!-- /.featurette-inner (display:table-cell) -->
         </div>
       </div>
+
     </header>
 
     <hr>
@@ -137,6 +136,11 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAybkt5k4GdqP2FCq2v4svRiY-EzrqJsH0&callback=initMap">
     </script>
 
+    <script>
+$("#sub").click(function() {
+    $("html, body").animate({ scrollTop: $('#contact').offset().top }, 1000);
+});
+     </script>
   </body>
 
 </html>
