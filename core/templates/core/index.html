@@ -141,6 +141,18 @@ $("#sub").click(function() {
     $("html, body").animate({ scrollTop: $('#contact').offset().top }, 1000);
 });
      </script>
+
+    <script>
+    $(document).ready(function(){
+    var href = window.location.href+'#contact';
+    var splitit = (href.split('#'))[1];
+    if(splitit !== "" || splitit !== "undefined"){
+        $('html, body').animate({
+            scrollTop: $('#'+splitit).offset().top
+        }, 2000);
+    }
+});
+    </script>
   </body>
 
 </html>
