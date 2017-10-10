@@ -19,4 +19,8 @@ urlpatterns = [
         views.find_me,
         name='find_me'),
 
+    # contact_me
+    url(r'^contact',
+        views.contact,
+        name='contact'),
 ]

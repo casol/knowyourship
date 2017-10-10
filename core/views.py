@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.http import HttpResponse
+from django.contrib import messages
+from django.core.mail import send_mail, BadHeaderError
 
 from .models import ShipList
-from .forms import SearchForm
+from .forms import SearchForm, ContactForm
 
 import itertools
 from haystack.query import SearchQuerySet
@@ -57,10 +60,10 @@ def ship_search(request):
             # check if results contain only one ship
             if len(results) == 1:
                 ship = [result.object.id for result in results][0]
-                # get ship object
-                ship = ShipList.objects.get(id=ship)
+                # get ship object or 404
+                ship_object = get_object_or_404(ShipList, id=ship)
                 # By passing object, get_absolute_url() method will be called to figure out the redirect URL
-                return redirect(ship)
+                return redirect(ship_object)
     return render(request,
                   'core/index.html',
                   {'form': form,
@@ -101,3 +104,37 @@ def get_ship(request):
     # Make sure you return a JSON object, not a bare list.
     # if other than dict you must set the safe parameter to False
     return JsonResponse(results, safe=False)
+
+
+def contact(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        # Form was submitted
+        # Crated a form instance using submitted data
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # TODO: reCAPTCHA passed validation
+            name = form.cleaned_data['name']
+            from_email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            # Message body with name and email
+            message = 'You have a message from {} ({}):\n\n{}'.format(form.cleaned_data['name'],
+                                                                      form.cleaned_data['email'],
+                                                                      form.cleaned_data['message'])
+            try:
+                send_mail(subject,
+                          message,
+                          from_email,
+                          ['youremail@mail.com'],
+                          fail_silently=False)
+                messages.success(request, 'Thank you! Your email was sent and '
+                                          'I will get back to you as soon as I can.')
+                form = ContactForm()
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+
+        else:
+            messages.error(request, 'Oh snap! Better check yourself, change '
+                                    'a few things up and try submitting again.')
+    return render(request, 'core/contact.html', {'form': form})
