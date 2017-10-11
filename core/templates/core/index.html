@@ -32,88 +32,18 @@
 
   <body>
     <!-- Navigation -->
-     {% include "core/navigation.html" %}
+    {% include "core/navigation.html" %}
 
-    <!-- Header-Search -->
-    <header class="header" id="top">
-      <div class="text-vertical-center">
-        <h1>Know Your Ship</h1>
-        <h3>Find ships museum all over the world!</h3>
-        <div class="featurette">
-           <div class="featurette-inner text-center">
-              <form action="" method="get" role="form" class="search has-button">
-                <div class="form-group">
-                    {{ form }}
-                    {% if form == None %}
-                    <h3><a href="#about" class="btn-block">Go back and search more!</a></h3>
-                    {% else %}
-                    <input id="sub" type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
-                    {% endif %}
-                </div>
-                 <!-- /form-group -->
-              </form>
-              <!-- /.max-width on this form -->
-           </div>
-           <!-- /.featurette-inner (display:table-cell) -->
-        </div>
-      </div>
-
-    </header>
-
-    <hr>
-    <!-- Map -->
-    <section id="contact" class="map">
-            <script>
-                 var locations = [
-                    {% for result in results %}
-                        {% with ship=result.object %}
-                            ['<a href="{{ ship.get_absolute_url }}#contact">{{ ship.ship }}</a>',
-                            {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
-                            {{ forloop.counter }}],
-                        {% endwith %}
-                    {% empty %}
-                        <div id="map"></div>
-                    {% endfor %}
-                    ];
-            </script>
-                <div id="map"></div>
-                {% if "query" in request.GET %}
-                    <script src="{% static 'core/js/ship_search_map.js' %}"></script>
-                {% else %}
-                    <script src="{% static 'core/js/geolocation_map.js' %}"></script>
-                {% endif %}
-    </section>
-
-    <!-- About -->
-    <!-- About -->
-    {% if "query" in request.GET %}
-    <section id="about" class="about">
-      <div class="container text-center">
-        <h2>Select one of the vessels located in the selected country</h2>
-          <p class="lead">Simply go to the map and select your ship</p>
-      </div>
-      <!-- /.container -->
-    </section>
-    {% endif %}
+    <!-- Search -->
+    {% block search %}
+    {% endblock %}
 
     <!-- Portfolio -->
     {% block content %}
     {% endblock %}
 
-    <!-- Services -->
-    {% include "core/about.html" %}
-
-    <hr>
-    <!-- Call to Action -->
-    <div class="call-to-action text-white">
-      <div class="container text-center">
-        <h3>Find out more or contact me!</h3>
-        <a href="#" class="btn btn-lg btn-light">About</a>
-        <a href="{% url 'core:contact' %}" class="btn btn-lg btn-dark">Contact</a>
-      </div>
-    </div>
-
-
+       <!-- Call to Action -->
+    {% include "core/callout.html" %}
 
     <!-- Footer -->
     {% include "core/footer.html" %}
@@ -144,7 +74,7 @@ $("#sub").click(function() {
 
     <script>
     $(document).ready(function(){
-    var href = window.location.href+'#contact';
+    var href = window.location.href+'#map';
     var splitit = (href.split('#'))[1];
     if(splitit !== "" || splitit !== "undefined"){
         $('html, body').animate({

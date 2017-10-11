@@ -1,0 +1,70 @@
+{% extends "core/index.html" %}
+{% load staticfiles %}
+
+{% block search %}
+     <!-- Header-Search -->
+    <header class="header" id="top">
+      <div class="text-vertical-center">
+        <h1>Know Your Ship</h1>
+        <h3>Find ships museum all over the world!</h3>
+        <div class="featurette">
+           <div class="featurette-inner text-center">
+              <form action="" method="get" role="form" class="search has-button">
+                <div class="form-group">
+                    {{ form }}
+                    {% if form == None %}
+                    <h3><a href="/core/" class="btn-block">Go back and search more!</a></h3>
+                    {% else %}
+                    <input id="sub" type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
+                    {% endif %}
+                </div>
+                 <!-- /form-group -->
+              </form>
+              <!-- /.max-width on this form -->
+           </div>
+           <!-- /.featurette-inner (display:table-cell) -->
+        </div>
+      </div>
+
+    </header>
+
+    <hr>
+    <!-- Map -->
+    <section id="map" class="map">
+            <script>
+                 var locations = [
+                    {% for result in results %}
+                        {% with ship=result.object %}
+                            ['<a href="{{ ship.get_absolute_url }}#map">{{ ship.ship }}</a>',
+                            {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
+                            {{ forloop.counter }}],
+                        {% endwith %}
+                    {% empty %}
+                        <div id="map"></div>
+                    {% endfor %}
+                    ];
+            </script>
+                <div id="map"></div>
+                {% if "query" in request.GET %}
+                    <script src="{% static 'core/js/ship_search_map.js' %}"></script>
+                {% else %}
+                    <script src="{% static 'core/js/geolocation_map.js' %}"></script>
+                {% endif %}
+    </section>
+
+    {% if "query" in request.GET %}
+
+    {% else %}
+    <hr>
+    {% endif %}
+    <!-- About -->
+    {% if "query" in request.GET %}
+    <section id="about" class="about">
+      <div class="container text-center">
+        <h2>Select one of the vessels located in </h2>
+          <p class="lead">Simply go to the map and select your ship</p>
+      </div>
+      <!-- /.container -->
+    </section>
+    {% endif %}
+{% endblock %}

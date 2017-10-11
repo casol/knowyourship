@@ -65,7 +65,7 @@ def ship_search(request):
                 # By passing object, get_absolute_url() method will be called to figure out the redirect URL
                 return redirect(ship_object)
     return render(request,
-                  'core/index.html',
+                  'core/search.html',
                   {'form': form,
                    'results': results})
 
