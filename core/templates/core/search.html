@@ -12,11 +12,7 @@
               <form action="" method="get" role="form" class="search has-button">
                 <div class="form-group">
                     {{ form }}
-                    {% if form == None %}
-                    <h3><a href="/core/" class="btn-block">Go back and search more!</a></h3>
-                    {% else %}
                     <input id="sub" type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
-                    {% endif %}
                 </div>
                  <!-- /form-group -->
               </form>
@@ -51,7 +47,6 @@
                     <script src="{% static 'core/js/geolocation_map.js' %}"></script>
                 {% endif %}
     </section>
-
     {% if "query" in request.GET %}
 
     {% else %}

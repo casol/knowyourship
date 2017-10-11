@@ -3,11 +3,14 @@
 
 {% block content %}
 
+<!-- Header -->
 <header class="header" id="top">
-    <div class="text-vertical-center">
-        <h1>Know Your Ship</h1>
-        <h3>Find ships museum all over the world!</h3>
-    </div>
+  <div class="text-vertical-center">
+    <h1>Know Your Ship</h1>
+    <h3>Find ships museum all over the world!</h3>
+    <br>
+    <a href="{% url 'core:ship_search' %}" class="btn btn-dark btn-lg js-scroll-trigger">Find More</a>
+  </div>
 </header>
 
 <hr>
