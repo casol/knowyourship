@@ -10,21 +10,81 @@
     <h3>Find ships museum all over the world!</h3>
     <br>
     <a href="{% url 'core:ship_search' %}" class="btn btn-dark btn-lg js-scroll-trigger">Find More</a>
+    <a href="#question" class="btn btn-dark btn-lg js-scroll-trigger">Contact Me!</a>
   </div>
 </header>
 
-<form action="" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Submit!</button>
-</form>
+<div class="call-to-action text-white" id="question">
+  <div class="container text-center">
+    <h3>Do you have any questions?</h3>
+  </div>
+</div>
+<br>
 
+<!-- Contact Form -->
+<section id="contact_me">
 {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                 <div id="success">
+                     {% for message in messages %}
+                     <div class="alert {{ message.tags }}">
+                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                         <strong>{{ message }}</strong>
+                     </div>
+                     {% endfor %}
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="#contact_me" class="form-horizontal" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                        <div class="col-md-12">
+                            {{ form.name }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                        <div class="col-md-12">
+                            {{ form.email }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-info bigicon"></i></span>
+                        <div class="col-md-12">
+                            {{ form.subject }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                        <div class="col-md-12">
+                            {{ form.message }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg btn-warning">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
 
 {% endblock %}

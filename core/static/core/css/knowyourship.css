@@ -322,3 +322,16 @@ footer {
     background-color: #003791;
     }
 
+/* Contact Form */
+
+.header-contact {
+    color: #003791;
+    font-size: 37px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.bigicon {
+    font-size: 35px;
+    color: #003791;
+}

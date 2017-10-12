@@ -11,7 +11,20 @@ class SearchForm(forms.Form):
 
 class ContactForm(forms.Form):
     """Base contact form class."""
-    name = forms.CharField(max_length=100, label='Name')
-    email = forms.EmailField(required=True, max_length=100, label='Email')
-    subject = forms.CharField(required=True, max_length=200, label='Subject')
-    message = forms.CharField(required=True, widget=forms.Textarea, label='Message')
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField(required=True, max_length=100)
+    subject = forms.CharField(required=True, max_length=200)
+    message = forms.CharField(required=True, widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        """
+        Added 'placeholder' attribute by customizing the default widget and
+        form control class for all fields.
+        """
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'placeholder': 'Name'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'Email Address'})
+        self.fields['subject'].widget.attrs.update({'placeholder': 'Subject'})
+        self.fields['message'].widget.attrs.update({'placeholder': 'Enter your message here.'})
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
