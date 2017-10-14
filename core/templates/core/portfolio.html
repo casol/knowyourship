@@ -33,24 +33,30 @@
         <div class="row">
           <div class="col-md-6">
             <div class="portfolio-item">
-
-                <img class="img-portfolio img-fluid" src="{{ MEDIA_URL }}images/USS_Arizona.jpg">
-                <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url">
-                <p> {{ ship.ship_image.image_description }}</p>
+                <div class="card">
+                      <div class="card-body">
+                          <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}">
+                          <small class="text-muted">{{ ship.ship_image.image_description }}</small>
+                      </div>
+                </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="portfolio-item">
-                <h2>{{ ship.ship }}</h2>
-                <p align="justify">{{ ship.details.content }}</p>
-                <p>{{ ship.ship_image.source_url }}</p>
-                <p>{{ ship.ship_image.title }}</p>
-
+                <div class="card">
+                      <div class="card-body">
+                          <h2>{{ ship.ship }}</h2>
+                          <p align="justify">{{ ship.details.content }}</p>
+                          <p>{{ ship.ship_image.title }}</p>
+                      </div>
+                </div>
             </div>
           </div>
         </div>
         <!-- /.row (nested) -->
-        <a href="{{ ship.url }}" class="btn btn-dark">View More Items</a>
+          <div class="text-center">
+        <a href="{{ ship.url }}" class="btn btn-dark">Visit Wiki page</a>
+          </div>
       </div>
       <!-- /.col-lg-10 -->
     </div>
