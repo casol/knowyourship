@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ShipList, ShipDetails, ShipCoordinates
+from .models import ShipList, ShipDetails, ShipCoordinates, ShipImage
 
 
 class ShipDetailsInline(admin.TabularInline):
@@ -24,4 +24,4 @@ class ShipListAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(ShipList, ShipListAdmin)
-
+admin.site.register(ShipImage)

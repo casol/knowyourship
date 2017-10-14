@@ -47,8 +47,12 @@
 
     {% endblock %}
 
+    {% url 'core:contact' as the_url %}
+    {% if request.get_full_path == the_url %}
     <!-- Call to Action -->
+    {% else %}
     {% include "core/callout.html" %}
+    {% endif %}
 
     <!-- Footer -->
     {% include "core/footer.html" %}

@@ -27,21 +27,25 @@
     </script>
 
   <script src="{% static 'core/js/ship_details_map.js' %}"></script>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <div class="portfolio-item">
-              <a href="#">
-                <img class="img-portfolio img-fluid" src="{% static "core/img/USS_Arizona.jpg" %}">
-              </a>
+
+                <img class="img-portfolio img-fluid" src="{{ MEDIA_URL }}images/USS_Arizona.jpg">
+                <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url">
+                <p> {{ ship.ship_image.image_description }}</p>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col-md-6">
             <div class="portfolio-item">
                 <h2>{{ ship.ship }}</h2>
                 <p align="justify">{{ ship.details.content }}</p>
+                <p>{{ ship.ship_image.source_url }}</p>
+                <p>{{ ship.ship_image.title }}</p>
+
             </div>
           </div>
         </div>

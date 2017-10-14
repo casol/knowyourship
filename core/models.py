@@ -26,13 +26,16 @@ class ShipList(models.Model):
 
 class ShipImage(models.Model):
     """Model responsible for storing images."""
-    ship_details = models.ForeignKey(ShipList, blank=True,
-                                     null=True, related_name='ship_details')
+    ship = models.OneToOneField(ShipList, blank=True,
+                                null=True, related_name='ship_image')
+    image = models.ImageField(upload_to='images/',
+                              blank=True,
+                              null=True)
     title = models.CharField(max_length=200)
     image_description = models.TextField(blank=True)
     artist = models.CharField(max_length=200)
     created = models.CharField(max_length=200)
-    url = models.URLField()
+    source_url = models.URLField()
     slug = models.SlugField(max_length=200, blank=True)
     usage_terms = models.CharField(max_length=250)
     license_url = models.URLField()
