@@ -14,8 +14,8 @@ function initMap() {
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading">'+ ship_name +'</h1>'+
       '<div id="bodyContent">'+
-      '<p>Source: <a href="' + url + '">'+
-      '' + url + '</a> '+
+      '<p>Open in Google Maps: <a href="https://www.google.com/maps/search/?api=1&query=' + search + '">jghfjjgh</a> '+
+      '<p>Source: <a href="' + url + '">' + url + '</a> '+
       '</div>'+
       '</div>';
 

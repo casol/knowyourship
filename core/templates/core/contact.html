@@ -85,6 +85,13 @@
         </div>
     </div>
 </div>
+<script>
+window.onload = function(){
+ $('html, body').animate({
+          scrollTop: $("#question").offset().top
+        }, 1000, "easeInOutExpo");
+};
+</script>
 </section>
 
 {% endblock %}

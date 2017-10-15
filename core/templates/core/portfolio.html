@@ -21,9 +21,11 @@
     <script>
         var ship_name = '{{ ship.ship }}';
         var url = '{{ ship.url }}';
+        var search = '{{ ship.ship }}%2C{{ ship.city }}';
         var country = '{{ ship.country }}';
         var latitude = {{ ship.coordinates.latitude }};
         var longitude = {{ ship.coordinates.longitude }};
+        search = search.replace(/\s+/g, '+');
     </script>
 
   <script src="{% static 'core/js/ship_details_map.js' %}"></script>
@@ -36,6 +38,9 @@
                 <div class="card">
                       <div class="card-body">
                           <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}">
+                          <small class="text-muted">(Author: {{ ship.ship_image.artist }})</small>
+                          <small class="text-muted">({{ ship.ship_image.license_short_name }})</small>
+                          <small class="text-muted"><a href="{{ ship.ship_image.source_url}}">({{ ship.ship_image.title }})</a></small><br>
                           <small class="text-muted">{{ ship.ship_image.image_description }}</small>
                       </div>
                 </div>
@@ -55,7 +60,11 @@
         </div>
         <!-- /.row (nested) -->
           <div class="text-center">
-        <a href="{{ ship.url }}" class="btn btn-dark">Visit Wiki page</a>
+              <div class="card">
+                      <div class="card-body">
+                          <a href="{{ ship.url }}" class="btn btn-dark">Go to Wikipedia page!</a>
+                      </div>
+              </div>
           </div>
       </div>
       <!-- /.col-lg-10 -->
