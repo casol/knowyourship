@@ -31,7 +31,7 @@
                  var locations = [
                     {% for result in results %}
                         {% with ship=result.object %}
-                            ['<a href="{{ ship.get_absolute_url }}#map">{{ ship.ship }}</a>',
+                            ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
                             {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
                             {{ forloop.counter }}],
                         {% endwith %}

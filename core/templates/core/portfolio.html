@@ -51,7 +51,11 @@
                 <div class="card">
                       <div class="card-body">
                           <h2>{{ ship.ship }}</h2>
+                          {% if ship.details.content|length > 20 %}
                           <p align="justify">{{ ship.details.content }}</p>
+                          {% else %}
+                          <p>pusto</p>
+                          {% endif %}
                           <p>{{ ship.ship_image.title }}</p>
                       </div>
                 </div>
@@ -72,6 +76,13 @@
     <!-- /.row -->
   </div>
   <!-- /.container -->
+    <script>
+        window.onload = function(){
+         $('html, body').animate({
+                  scrollTop: $("#map").offset().top
+                }, 1000, "easeInOutExpo");
+        };
+    </script>
 </section>
 
 {% endblock %}
