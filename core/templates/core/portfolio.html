@@ -37,11 +37,20 @@
             <div class="portfolio-item">
                 <div class="card">
                       <div class="card-body">
+
+                          {% if ship.ship_image.image.url == None %}
+                          <img class="img-portfolio img-fluid" src="http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg">
+                          <p>
+                          Would you like to add proper ship picture?
+                          Just visit <a href="{{ ship.url }}">Wikipedia page.</a> and add some images!
+                          </p>
+                          {% else %}
                           <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}">
                           <small class="text-muted">(Author: {{ ship.ship_image.artist }})</small>
                           <small class="text-muted">({{ ship.ship_image.license_short_name }})</small>
                           <small class="text-muted"><a href="{{ ship.ship_image.source_url}}">({{ ship.ship_image.title }})</a></small><br>
                           <small class="text-muted">{{ ship.ship_image.image_description }}</small>
+                          {% endif %}
                       </div>
                 </div>
             </div>
@@ -51,10 +60,21 @@
                 <div class="card">
                       <div class="card-body">
                           <h2>{{ ship.ship }}</h2>
-                          {% if ship.details.content|length > 20 %}
+                          {% if ship.details.content|length > 200 %}
                           <p align="justify">{{ ship.details.content }}</p>
-                          {% else %}
-                          <p>pusto</p>
+                          <small><a href="{{ ship.url }}">Source</a></small>
+                          {% elif ship.details.content|length > 100 %}
+                          <p align="justify">{{ ship.details.content }}</p>
+                          <br>
+                          <p>Would you like to see some more details?</p>
+                          <p>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></p>
+
+                          {% elif ship.details.content|length < 10 %}
+                          <p align="justify">{{ ship.details.content }}</p>
+                          <p>nic</p>
+                          <p>Would you like to see some more details?</p>
+                          <p>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></p>
+
                           {% endif %}
                           <p>{{ ship.ship_image.title }}</p>
                       </div>
