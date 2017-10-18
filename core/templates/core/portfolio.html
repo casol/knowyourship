@@ -37,19 +37,14 @@
             <div class="portfolio-item">
                 <div class="card">
                       <div class="card-body">
-
-                          {% if ship.ship_image.image.url == None %}
-                          <img class="img-portfolio img-fluid" src="http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg">
-                          <p>
-                          Would you like to add proper ship picture?
-                          Just visit <a href="{{ ship.url }}">Wikipedia page.</a> and add some images!
-                          </p>
-                          {% else %}
-                          <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}">
+                          <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}" onerror="ImgError(this)">
+                          {% if ship.ship_image.image.url %}
                           <small class="text-muted">(Author: {{ ship.ship_image.artist }})</small>
                           <small class="text-muted">({{ ship.ship_image.license_short_name }})</small>
                           <small class="text-muted"><a href="{{ ship.ship_image.source_url}}">({{ ship.ship_image.title }})</a></small><br>
                           <small class="text-muted">{{ ship.ship_image.image_description }}</small>
+                          {% else %}
+                          <div id="ship_img"></div>
                           {% endif %}
                       </div>
                 </div>
@@ -102,6 +97,16 @@
                   scrollTop: $("#map").offset().top
                 }, 1000, "easeInOutExpo");
         };
+    </script>
+
+    <script>
+        function ImgError(source){
+            source.src = "http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg";
+            source.onerror = "";
+            var msg = 'Nice one? kinda... Would you like to add proper ship picture? Just visit <a href="{{ ship.url }}">Wikipedia page</a> and add some images!';
+            document.getElementById('ship_img').innerHTML = msg;
+            return true;
+        }
     </script>
 </section>
 
