@@ -57,16 +57,14 @@
                           <h2>{{ ship.ship }}</h2>
                           {% if ship.details.content|length > 200 %}
                           <p align="justify">{{ ship.details.content }}</p>
-                          <small><a href="{{ ship.url }}">Source</a></small>
+                          <small><li><a href="{{ ship.url }}">Source</a></li></small>
                           {% elif ship.details.content|length > 100 %}
-                          <p align="justify">{{ ship.details.content }}</p>
-                          <br>
-                          <p>Would you like to see some more details?</p>
-                          <p>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></p>
+                          <p align="justify">{{ ship.details.content }}</p><br>
+                          <small>Would you like to see some more details?</small><br>
+                          <small>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></small>
 
                           {% elif ship.details.content|length < 10 %}
                           <p align="justify">{{ ship.details.content }}</p>
-                          <p>nic</p>
                           <p>Would you like to see some more details?</p>
                           <p>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></p>
 

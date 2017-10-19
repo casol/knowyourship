@@ -8,22 +8,22 @@
           <i class="fa fa-times"></i>
         </a>
         <li class="sidebar-brand">
-          <a class="js-scroll-trigger" href="#top">Start Bootstrap</a>
+          <a class="js-scroll-trigger" href="#top">Know Your Ship</a>
         </li>
         <li>
-          <a class="js-scroll-trigger" href="#top">Home</a>
+          <a class="js-scroll-trigger" href="#top">Search</a>
         </li>
         <li>
           <a class="js-scroll-trigger" href="#about">About</a>
         </li>
+        {% url 'core:ship_detail' as ship_url %}
+        {% if request.get_full_path == ship_url %}
         <li>
-          <a class="js-scroll-trigger" href="#services">Services</a>
+          <a class="js-scroll-trigger" href="#portfolio">Details</a>
         </li>
+        {% endif %}
         <li>
-          <a class="js-scroll-trigger" href="#portfolio">Portfolio</a>
-        </li>
-        <li>
-          <a class="js-scroll-trigger" href="#contact" onclick=$( "#menu-close").click();>Contact</a>
+          <a class="js-scroll-trigger" href="{% url 'core:contact' %}" onclick=$( "#menu-close").click();>Contact</a>
         </li>
       </ul>
     </nav>
