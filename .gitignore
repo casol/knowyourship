@@ -194,4 +194,7 @@ pip-selfcheck.json
 solr-4.10.4
 solr/
 
+###Redis###
+redis-stable/
+
 # End of https://www.gitignore.io/api/django,python,pycharm,virtualenv

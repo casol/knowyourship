@@ -35,10 +35,12 @@
         <div class="row">
           <div class="col-md-6">
             <div class="portfolio-item">
-                <div class="card">
-                      <div class="card-body">
+                <div class="card border-dark">
+                      <div class="card-body text-dark">
                           <img class="img-portfolio img-fluid" src="{{ ship.ship_image.image.url }}" onerror="ImgError(this)">
-                          {% if ship.ship_image.image.url %}
+                      </div>
+                    <div class="card-footer">
+                        {% if ship.ship_image.image.url %}
                           <small class="text-muted">(Author: {{ ship.ship_image.artist }})</small>
                           <small class="text-muted">({{ ship.ship_image.license_short_name }})</small>
                           <small class="text-muted"><a href="{{ ship.ship_image.source_url}}">({{ ship.ship_image.title }})</a></small><br>
@@ -46,30 +48,37 @@
                           {% else %}
                           <div id="ship_img"></div>
                           {% endif %}
-                      </div>
+                    </div>
                 </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="portfolio-item">
-                <div class="card">
-                      <div class="card-body">
-                          <h2>{{ ship.ship }}</h2>
+                <div class="card border-dark">
+                      <div class="card-body text-dark">
+                          <div class="card-title">
+                              <h1>
+                                  <span class="card-title"><strong>{{ ship.ship }}</strong></span>
+                                  <button type="button" class="btn btn-primary btn-sm float-right">
+                                      View{{ total_views|pluralize}} <span class="badge badge-light">{{ total_views }}</span>
+                                      <span class="sr-only">total views</span>
+                                  </button>
+                              </h1>
+                          </div>
                           {% if ship.details.content|length > 200 %}
-                          <p align="justify">{{ ship.details.content }}</p>
+                          <p class="card-text">{{ ship.details.content }}</p>
                           <small><li><a href="{{ ship.url }}">Source</a></li></small>
                           {% elif ship.details.content|length > 100 %}
-                          <p align="justify">{{ ship.details.content }}</p><br>
+                          <p class="card-text">{{ ship.details.content }}</p><br>
                           <small>Would you like to see some more details?</small><br>
                           <small>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></small>
 
                           {% elif ship.details.content|length < 10 %}
-                          <p align="justify">{{ ship.details.content }}</p>
+                          <p class="card-text">{{ ship.details.content }}</p>
                           <p>Would you like to see some more details?</p>
                           <p>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></p>
 
                           {% endif %}
-                          <p>{{ ship.ship_image.title }}</p>
                       </div>
                 </div>
             </div>
@@ -80,6 +89,7 @@
               <div class="card">
                       <div class="card-body">
                           <a href="{{ ship.url }}" class="btn btn-dark">Go to Wikipedia page!</a>
+
                       </div>
               </div>
           </div>

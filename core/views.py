@@ -11,15 +11,25 @@ from .forms import SearchForm, ContactForm
 
 import itertools
 from haystack.query import SearchQuerySet
+import redis
+from django.conf import settings
+
+# connect to redis
+r = redis.StrictRedis(host=settings.REDIS_HOST,
+                      port=settings.REDIS_PORT,
+                      db=settings.REDIS_DB)
 
 import requests
 
 
 def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
+    # increment total ship views by 1
+    total_views = r.incr('ship:{}:views'.format(ship.id))
     return render(request,
                   'core/portfolio.html',
-                  {'ship': ship})
+                  {'ship': ship,
+                   'total_views': total_views})
 
 
 def find_me(request):
