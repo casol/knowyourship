@@ -26,10 +26,24 @@ def ship_detail(request, ship):
     ship = get_object_or_404(ShipList, slug=ship)
     # increment total ship views by 1
     total_views = r.incr('ship:{}:views'.format(ship.id))
+    # ship ranking increment by 1
+    r.zincrby('ship_ranking', ship.id, 1)
     return render(request,
                   'core/portfolio.html',
                   {'ship': ship,
                    'total_views': total_views})
+
+
+def ship_ranking(request):
+    # get image ranking dictionary
+    ship_ranking = r.zrange('ship_ranking', 0, -1, desc=True)[:10]
+    ship_ranking_ids = [int(id_) for id_ in ship_ranking]
+    # get most viewed images
+    most_viewed = list(ShipList.objects.filter(id__in=ship_ranking_ids))
+    most_viewed.sort(key=lambda x: ship_ranking_ids.index(x.id))
+    return render(request,
+                  'core/ranking.html',
+                  {'most_viewed': most_viewed})
 
 
 def find_me(request):

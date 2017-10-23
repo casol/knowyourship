@@ -1,0 +1,10 @@
+ <h1>Ship ranking</h1>
+     <ol>
+         {% for ship in most_viewed %}
+             <li>
+                 <a href="{{ ship.get_absolute_url }}">
+                 {{ ship.ship }}
+             </a>
+         </li>
+     {% endfor %}
+     </ol>

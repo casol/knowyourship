@@ -5,7 +5,7 @@ urlpatterns = [
     url(r'^$',
         views.ship_search,
         name='ship_search'),
-
+    # ajax autocomplete
     url(r'^get_ship',
         views.get_ship,
         name='get_ship'),
@@ -23,4 +23,9 @@ urlpatterns = [
     url(r'^contact',
         views.contact,
         name='contact'),
+
+    # ranking
+    url(r'^ranking',
+        views.ship_ranking,
+        name='ship_ranking'),
 ]
