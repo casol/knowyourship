@@ -57,8 +57,7 @@
     <section id="about" class="about">
       <div class="container text-center">
         <h2>Select one of the vessels located on the map  </h2>
-          <p class="lead">Simply go to the map and select your ship</p>
-          <p>Click on marker or choose from the list:</p>
+          <p class="lead">Simply go to the map and select your ship or choose from the list:</p>
           {% for result in results %}
               {% with ship=result.object %}
                 <li><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></li>

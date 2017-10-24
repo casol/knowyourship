@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 
 class SearchForm(forms.Form):
@@ -28,3 +29,9 @@ class ContactForm(forms.Form):
         self.fields['message'].widget.attrs.update({'placeholder': 'Enter your message here.'})
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'email', 'body')

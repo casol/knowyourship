@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 
-from .models import ShipList
-from .forms import SearchForm, ContactForm
+from .models import ShipList, Comment
+from .forms import SearchForm, ContactForm, CommentForm
 
 import itertools
 from haystack.query import SearchQuerySet
@@ -28,10 +28,28 @@ def ship_detail(request, ship):
     total_views = r.incr('ship:{}:views'.format(ship.id))
     # ship ranking increment by 1
     r.zincrby('ship_ranking', ship.id, 1)
+    
+    # list of active comments
+    comments = ship.comments.filter(active=True)
+    if request.method == 'POST':
+        # comment has been added
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # create comment object but do not save to database
+            new_comment = comment_form.save(commit=False)
+            # assign ship to the comment
+            new_comment.ship = ship
+            # save
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
     return render(request,
                   'core/portfolio.html',
                   {'ship': ship,
-                   'total_views': total_views})
+                   'total_views': total_views,
+                   'comments': comments,
+                   'comment_form': comment_form})
 
 
 def ship_ranking(request):
