@@ -47,6 +47,11 @@
 
     {% endblock %}
 
+    <!-- Ranking -->
+    {% block ranking %}
+
+    {% endblock %}
+
     {% url 'core:contact' as the_url %}
     {% if request.get_full_path == the_url %}
     <!-- Contact-About -->

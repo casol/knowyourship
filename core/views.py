@@ -35,10 +35,10 @@ def ship_detail(request, ship):
 
 
 def ship_ranking(request):
-    # get image ranking dictionary
+    # get ship ranking dictionary
     ship_ranking = r.zrange('ship_ranking', 0, -1, desc=True)[:10]
     ship_ranking_ids = [int(id_) for id_ in ship_ranking]
-    # get most viewed images
+    # get most viewed ship
     most_viewed = list(ShipList.objects.filter(id__in=ship_ranking_ids))
     most_viewed.sort(key=lambda x: ship_ranking_ids.index(x.id))
     return render(request,

@@ -1,10 +1,91 @@
- <h1>Ship ranking</h1>
-     <ol>
-         {% for ship in most_viewed %}
-             <li>
-                 <a href="{{ ship.get_absolute_url }}">
-                 {{ ship.ship }}
-             </a>
-         </li>
-     {% endfor %}
-     </ol>
+{% extends "core/index.html" %}
+{% load staticfiles %}
+
+{% block ranking %}
+<!-- Header -->
+<header class="header" id="top">
+  <div class="text-vertical-center">
+    <h1>Know Your Ship</h1>
+    <h3>Find ships museum all over the world!</h3>
+    <br>
+    <a href="{% url 'core:ship_search' %}" class="btn btn-dark btn-lg js-scroll-trigger">Find More</a>
+  </div>
+</header>
+
+<hr>
+<!-- Ranking TOP -->
+
+<div class="container-fluid" id="top_ships">
+    <h4 class="text-center">Top 5 Ships</h4>
+    <div class="card-deck">
+        {% for ship in most_viewed|slice:":5" %}
+            <div class="card border-dark" title="{{ ship.ship }}">
+                <img class="card-img-top" src="{{ ship.ship_image.image.url }}" alt="Card image cap" onerror="ImgError(this)">
+                    <div class="card-body text-dark">
+                        <h4 class="card-title">{{ ship.ship }}</h4>
+                        <p>{{ total_views }}</p>
+                        <p class="card-text">{{ ship.details.content|truncatechars:130 }}</p>
+                        <a href="{{ ship.get_absolute_url }}" class="btn btn-outline-dark">Go to Ship!</a>
+                    </div>
+
+                    <div class="card-footer">
+                        <h4 class="text-muted">{{ forloop.counter }}.</h4>
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<hr>
+<!-- Ranking -->
+<div class="container-fluid">
+    <div class="card border-dark">
+        <div class="card-img-top" id="map"></div>
+          <div class="card-body text-dark">
+              <h2 class="card-title">SHIP RANKING</h2>
+              <h6 class="card-subtitle mb-2 text-muted">Most Viewed Ships</h6>
+                <ol class="card-text">
+                    {% for ship in most_viewed %}
+                        <li class="card-text">
+                            <a href="{{ ship.get_absolute_url }}">
+                            {{ ship.ship }}
+                            </a>
+                            </li>
+                    {% endfor %}
+                </ol>
+             </div>
+    </div>
+</div>
+
+<hr>
+
+<script>
+     var locations = [
+        {% for ship in most_viewed %}
+                ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
+                {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
+                {{ forloop.counter }}],
+        {% endfor %}
+        ];
+</script>
+
+<script src="{% static 'core/js/ship_search_map.js' %}"></script>
+
+<script>
+    window.onload = function(){
+     $('html, body').animate({
+              scrollTop: $("#top_ships").offset().top
+            }, 1000, "easeInOutExpo");
+    };
+</script>
+
+<script>
+    function ImgError(source){
+        source.src = "http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg";
+        source.onerror = "";
+        var msg = 'Nice one? kinda... Would you like to add proper ship picture? Just visit <a href="{{ ship.url }}">Wikipedia page</a> and add some images!';
+        document.getElementById('ship_img').innerHTML = msg;
+        return true;
+    }
+</script>
+
+{% endblock %}
