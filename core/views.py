@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.http import JsonResponse
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 
@@ -28,7 +28,7 @@ def ship_detail(request, ship):
     total_views = r.incr('ship:{}:views'.format(ship.id))
     # ship ranking increment by 1
     r.zincrby('ship_ranking', ship.id, 1)
-    
+
     # list of active comments
     comments = ship.comments.filter(active=True)
     if request.method == 'POST':
@@ -41,6 +41,8 @@ def ship_detail(request, ship):
             new_comment.ship = ship
             # save
             new_comment.save()
+            # clear form field after a submit
+            comment_form = CommentForm()
     else:
         comment_form = CommentForm()
 
