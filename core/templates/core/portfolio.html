@@ -110,6 +110,14 @@
                              {{ comment.created }}
                              </p>
                              {{ comment.body|linebreaks }}
+                             <h2>REPLAY comment</h2>
+                         <form action="." method="post" style="background-color: yellow">
+                         {% csrf_token %}
+                         {{ comment_form.as_p }}
+                         <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                          <p><input type="submit" value="REPLAY"></p>
+                         </form>
+
                                  <div class="comment" style="background-color: yellow">
                                  {% for replay in comment.replies.all %}
                                      <li>
@@ -136,31 +144,49 @@
                 </div>
                 <hr>
      <div class="card border-dark">
-      <div class="card-body text-dark">
+         <div class="card-body text-dark">
                     <!-- Comments Form -->
-          <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <textarea class="form-control" rows="3"></textarea>
+            {% with comments.count as total_comments %}
+                <h2>
+                {{ total_comments }} comment{{ total_comments|pluralize }}
+                </h2>
+            {% endwith %}
+              <div class="card my-4">
+                  <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form action="." method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="form-row">
+                                     <div class="form-group col-md-3">
+                                        {{ comment_form.name }}
+                                     </div>
+                                     <div class="form-group col-md-3">
+                                        {{ comment_form.email }}
+                                     </div>
+                                </div>
+                                     {{ comment_form.body }}
+                            </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
+              </div>
 
           <!-- Single Comment -->
+          {% for comment in comments %}
           <div class="media mb-4">
             <span class="fa-stack fa-lg">
               <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
               <i class="fa fa-ship fa-stack-1x" aria-hidden="true"></i>
             </span>
             <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+              <h5 class="mt-0"> {{ comment.name }} {{ comment.created }}</h5>
+              {{ comment.body|linebreaks }}
             </div>
           </div>
+             {% empty %}
+                         <h4>There are no comments yet.</h4>
+             {% endfor %}
 
           <!-- Comment with nested comments -->
           <div class="media mb-4">

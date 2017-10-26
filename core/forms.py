@@ -35,3 +35,16 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')
+
+    def __init__(self, *args, **kwargs):
+        """
+        Added 'placeholder' attribute by customizing the default widget and
+        form control class for all fields.
+        """
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'placeholder': 'Name'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'Email Address'})
+        self.fields['body'].widget.attrs.update({'placeholder': 'Comment'})
+        self.fields['body'].widget.attrs.update({'rows': '5'})
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'

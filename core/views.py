@@ -35,6 +35,16 @@ def ship_detail(request, ship):
         # comment has been added
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
+            parent_obj = None
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_qs = Comment.objects.filter(id=parent_id)
+                if parent_qs.exists():
+                    parent_obj = parent_qs.first()
+            # replies = Comment.replies.all()
             # create comment object but do not save to database
             new_comment = comment_form.save(commit=False)
             # assign ship to the comment
@@ -42,7 +52,8 @@ def ship_detail(request, ship):
             # save
             new_comment.save()
             # clear form field after a submit
-            comment_form = CommentForm()
+            # comment_form = CommentForm()
+            return HttpResponseRedirect(ship.get_absolute_url())
     else:
         comment_form = CommentForm()
 
@@ -51,7 +62,8 @@ def ship_detail(request, ship):
                   {'ship': ship,
                    'total_views': total_views,
                    'comments': comments,
-                   'comment_form': comment_form})
+                   'comment_form': comment_form,
+                   'parent_obj': parent_obj})
 
 
 def ship_ranking(request):
