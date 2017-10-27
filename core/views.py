@@ -30,7 +30,7 @@ def ship_detail(request, ship):
     r.zincrby('ship_ranking', ship.id, 1)
 
     # list of active comments
-    comments = ship.comments.filter(active=True)
+    comments = ship.comments.filter(active=True, parent__isnull=True)
     if request.method == 'POST':
         # comment has been added
         comment_form = CommentForm(data=request.POST)
@@ -41,10 +41,11 @@ def ship_detail(request, ship):
             except:
                 parent_id = None
             if parent_id:
-                parent_qs = Comment.objects.filter(id=parent_id)
-                if parent_qs.exists():
-                    parent_obj = parent_qs.first()
-            # replies = Comment.replies.all()
+                parent_qs = Comment.objects.get(id=parent_id)
+                if parent_qs:
+                    parent_obj = parent_qs
+                    replay_comment = comment_form.save(commit=False)
+                    replay_comment.parent = parent_obj
             # create comment object but do not save to database
             new_comment = comment_form.save(commit=False)
             # assign ship to the comment
@@ -62,8 +63,7 @@ def ship_detail(request, ship):
                   {'ship': ship,
                    'total_views': total_views,
                    'comments': comments,
-                   'comment_form': comment_form,
-                   'parent_obj': parent_obj})
+                   'comment_form': comment_form})
 
 
 def ship_ranking(request):
