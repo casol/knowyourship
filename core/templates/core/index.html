@@ -79,6 +79,14 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAybkt5k4GdqP2FCq2v4svRiY-EzrqJsH0&callback=initMap">
     </script>
+
+    <script>
+      $(".comment-replay-btn").click(function(event){
+        event.preventDefault();
+        $(this).parent().next(".comment-replay").fadeToggle();
+      })
+
+    </script>
 {% comment %}
   <script>
     $(document).ready(function(){

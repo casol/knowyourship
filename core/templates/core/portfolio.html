@@ -94,55 +94,7 @@
       </div>
       <!-- /.col-lg-10 -->
     </div>
-                <hr>
-                <div class="card border-dark">
-                      <div class="card-body text-dark">
-                        {% with comments.count as total_comments %}
-                         <h2>
-                         {{ total_comments }} comment{{ total_comments|pluralize }}
-                         </h2>
-                        {% endwith %}
-
-                          {% for comment in comments %}
-                         <div class="comment" style="background-color: powderblue">
-                             <p class="info">
-                             Comment {{ forloop.counter }} by {{ comment.name }}
-                             {{ comment.created }}
-                             </p>
-                             {{ comment.body|linebreaks }}
-                             <h2>REPLAY comment</h2>
-                         <form action="." method="post" style="background-color: yellow">
-                         {% csrf_token %}
-                         {{ comment_form.as_p }}
-                         <input type="hidden" name="parent_id" value="{{ comment.id }}">
-                          <p><input type="submit" value="REPLAY"></p>
-                         </form>
-
-                                 <div class="comment" style="background-color: yellow">
-                                 {% for replay in comment.replies.all %}
-                                     <li>
-                                     {{ replay.body }}
-                                     </li>
-                                 {% endfor %}
-                                 </div>
-                         </div>
-                        {% empty %}
-                         <p>There are no comments yet.</p>
-                        {% endfor %}
-
-                          {% if new_comment %}
-                         <h2>Your comment has been added.</h2>
-                        {% else %}
-                         <h2>Add a new comment</h2>
-                         <form action="." method="post">
-                         {{ comment_form.as_p }}
-                         {% csrf_token %}
-                         <p><input type="submit" value="Add comment"></p>
-                         </form>
-                        {% endif %}
-                      </div>
-                </div>
-                <hr>
+     <hr>
      <div class="card border-dark">
          <div class="card-body text-dark">
                     <!-- Comments Form -->
@@ -173,6 +125,7 @@
               </div>
 
           <!-- Single Comment -->
+             {% comment %}
           {% for comment in comments %}
           <div class="media mb-4">
             <span class="fa-stack fa-lg">
@@ -180,40 +133,64 @@
               <i class="fa fa-ship fa-stack-1x" aria-hidden="true"></i>
             </span>
             <div class="media-body">
-              <h5 class="mt-0"> {{ comment.name }} {{ comment.created }}</h5>
+              <h5 class="mt-0"> {{ comment.name }}|{{ comment.created }}</h5>
               {{ comment.body|linebreaks }}
             </div>
           </div>
              {% empty %}
                          <h4>There are no comments yet.</h4>
              {% endfor %}
-
+             {% endcomment %}
           <!-- Comment with nested comments -->
+             {% for comment in comments %}
           <div class="media mb-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <span class="fa-stack fa-lg">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-comment fa-stack-1x fa-inverse"></i>
+            </span>
             <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <h5 class="mt-0">{{ comment.name }} | <small class="text-muted">{{ comment.created }}</small></h5>
+               {{ comment.body|linebreaks }}
+                {% with comment.replies.all.count as total_replays %}
+                <p>{% if total_replays > 0 %}{{ total_replays }} Comment{{ total_replays|pluralize }} | {% endif %}<a class="comment-replay-btn" href="#">Replay</a></p>
+                {% endwith %}
+                <div class="comment-replay" style="display:none">
 
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        <form action="." method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="form-row">
+                                         <div class="form-group col-md-3">
+                                            {{ comment_form.name }}
+                                         </div>
+                                         <div class="form-group col-md-3">
+                                            {{ comment_form.email }}
+                                         </div>
+                                    </div>
+                                         {{ comment_form.body }}
+                                </div>
+                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                            <input class="btn btn-primary" type="submit" value="Replay">
+                        </form>
+
+                   {% for replay in comment.replies.all %}
+                  <div class="media mt-4">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-comments fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ replay.name }} <small class="text-muted">{{ comment.created }}</small></h5>
+                        {{ replay.body }}
+                    </div>
+                  </div>
+                {% endfor %}
                 </div>
-              </div>
-
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-              </div>
-
             </div>
           </div>
-
+             {% empty %}
+                <h4>There are no comments yet.</h4>
+            {% endfor %}
         </div>
 
       </div>
