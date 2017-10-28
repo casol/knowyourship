@@ -1,18 +1,31 @@
-<!-- Services -->
-    <section id="services" class="services bg-primary text-white">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-lg-10 mx-auto">
-            <h2>Our Services</h2>
-            <hr class="small">
-            <div class="row">
+<!-- Comments Form -->
+<h2>Add a new comment</h2>
+<form action="." method="post">
+	{{ comment_form.as_p }}
+	{% csrf_token %}
+	<button type="submit">Add comment</button>
+</form>
 
-            </div>
-            <!-- /.row (nested) -->
-          </div>
-          <!-- /.col-lg-10 -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container -->
-    </section>
+<!-- Comment with nested comments -->
+{% for comment in comments %}
+	<div class="comment" style="background-color: powderblue">
+		<p class="info">{{ comment.name }} | {{ comment.created }}</p>
+			{{ comment.body|linebreaks }}
+
+		{% for replay in comment.replies.all %}
+			<p class="info">{{ replay.name }} | {{ replay.created }}</p>
+			<li>{{ replay.body }}</li>
+		{% endfor %}
+
+		<h5>Replay</h5>
+		<form action="." method="post">
+			{{ comment_form.as_p }}
+			{% csrf_token %}
+			<!-- Hidden input for parent comment.id -->
+			<input type="hidden" name="parent_id" value="{{ comment.id }}">
+                        <input class="btn btn-primary" type="submit" value="Replay">
+		</form>
+	</div>
+{% empty %}
+<h4>There are no comments yet.</h4>
+{% endfor %}

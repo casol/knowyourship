@@ -23,41 +23,44 @@ import requests
 
 
 def ship_detail(request, ship):
+    # get ship object
     ship = get_object_or_404(ShipList, slug=ship)
     # increment total ship views by 1
     total_views = r.incr('ship:{}:views'.format(ship.id))
     # ship ranking increment by 1
     r.zincrby('ship_ranking', ship.id, 1)
-
-    # list of active comments
+    # list of active parent comments
     comments = ship.comments.filter(active=True, parent__isnull=True)
     if request.method == 'POST':
         # comment has been added
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             parent_obj = None
+            # get parent comment id from hidden input
             try:
+                # id integer e.g. 15
                 parent_id = int(request.POST.get('parent_id'))
             except:
                 parent_id = None
+            # if parent_id has been submitted get parent_obj id
             if parent_id:
-                parent_qs = Comment.objects.get(id=parent_id)
-                if parent_qs:
-                    parent_obj = parent_qs
+                parent_obj = Comment.objects.get(id=parent_id)
+                # if parent object exist
+                if parent_obj:
+                    # create replay comment object
                     replay_comment = comment_form.save(commit=False)
+                    # assign parent_obj to replay comment
                     replay_comment.parent = parent_obj
+            # normal comment
             # create comment object but do not save to database
             new_comment = comment_form.save(commit=False)
             # assign ship to the comment
             new_comment.ship = ship
             # save
             new_comment.save()
-            # clear form field after a submit
-            # comment_form = CommentForm()
             return HttpResponseRedirect(ship.get_absolute_url())
     else:
         comment_form = CommentForm()
-
     return render(request,
                   'core/portfolio.html',
                   {'ship': ship,
