@@ -28,6 +28,10 @@
         width: 100%;
        }
     </style>
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit" async defer></script>
+
   </head>
 
   <body>
@@ -97,6 +101,14 @@
     });
       </script>
     {% endcomment %}
+
+    <script>
+      var CaptchaCallback = function() {
+        $('.g-recaptcha').each(function(index, el) {
+          grecaptcha.render(el, {'sitekey' : '6LdoWzYUAAAAAApiJJGFiiV_PethG3eWOBHD7vAn'});
+        });
+      };
+    </script>
 
   </body>
 

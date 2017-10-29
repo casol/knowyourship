@@ -143,3 +143,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# Google reCAPTCHA
+GOOGLE_RECAPTCHA_SECRET_KEY = get_secret("GOOGLE_RECAPTCHA_SECRET_KEY")

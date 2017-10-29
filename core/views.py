@@ -8,7 +8,10 @@ from django.core.mail import send_mail, BadHeaderError
 
 from .models import ShipList, Comment
 from .forms import SearchForm, ContactForm, CommentForm
+from .decorators import check_recaptcha
 
+import json
+import urllib
 import itertools
 from haystack.query import SearchQuerySet
 import redis
@@ -22,6 +25,7 @@ r = redis.StrictRedis(host=settings.REDIS_HOST,
 import requests
 
 
+#@check_recaptcha
 def ship_detail(request, ship):
     # get ship object
     ship = get_object_or_404(ShipList, slug=ship)
@@ -35,30 +39,49 @@ def ship_detail(request, ship):
         # comment has been added
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            parent_obj = None
-            # get parent comment id from hidden input
-            try:
-                # id integer e.g. 15
-                parent_id = int(request.POST.get('parent_id'))
-            except:
-                parent_id = None
-            # if parent_id has been submitted get parent_obj id
-            if parent_id:
-                parent_obj = Comment.objects.get(id=parent_id)
-                # if parent object exist
-                if parent_obj:
-                    # create replay comment object
-                    replay_comment = comment_form.save(commit=False)
-                    # assign parent_obj to replay comment
-                    replay_comment.parent = parent_obj
-            # if parent_id = None - proceed with normal comment
-            # create comment object but do not save to database
-            new_comment = comment_form.save(commit=False)
-            # assign ship to the comment
-            new_comment.ship = ship
-            # save
-            new_comment.save()
-            return HttpResponseRedirect(ship.get_absolute_url())
+            # Form fields passed validation
+            # Begin reCAPTCHA validation
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            url = 'https://www.google.com/recaptcha/api/siteverify'
+            values = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req = urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            # End reCAPTCHA validation
+            if result['success']:
+
+                parent_obj = None
+                # get parent comment id from hidden input
+                try:
+                    # id integer e.g. 15
+                    parent_id = int(request.POST.get('parent_id'))
+                except:
+                    parent_id = None
+                # if parent_id has been submitted get parent_obj id
+                if parent_id:
+                    parent_obj = Comment.objects.get(id=parent_id)
+                    # if parent object exist
+                    if parent_obj:
+                        # create replay comment object
+                        replay_comment = comment_form.save(commit=False)
+                        # assign parent_obj to replay comment
+                        replay_comment.parent = parent_obj
+                        gotodiv = 'comments'
+                # if parent_id = None - proceed with normal comment
+                # create comment object but do not save to database
+                new_comment = comment_form.save(commit=False)
+                # assign ship to the comment
+                new_comment.ship = ship
+                # save
+                new_comment.save()
+                return HttpResponseRedirect(ship.get_absolute_url())
+            else:
+                messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+                return HttpResponseRedirect(ship.get_absolute_url())
     else:
         comment_form = CommentForm()
     return render(request,
@@ -66,7 +89,8 @@ def ship_detail(request, ship):
                   {'ship': ship,
                    'total_views': total_views,
                    'comments': comments,
-                   'comment_form': comment_form})
+                   'comment_form': comment_form
+                   })
 
 
 def ship_ranking(request):
@@ -173,27 +197,41 @@ def contact(request):
         # Crated a form instance using submitted data
         form = ContactForm(request.POST)
         if form.is_valid():
-            # TODO: reCAPTCHA passed validation
-            name = form.cleaned_data['name']
-            from_email = form.cleaned_data['email']
-            subject = form.cleaned_data['subject']
-            # Message body with name and email
-            message = 'You have a message from {} ({}):\n\n{}'.format(form.cleaned_data['name'],
-                                                                      form.cleaned_data['email'],
-                                                                      form.cleaned_data['message'])
-            try:
-                send_mail(subject,
-                          message,
-                          from_email,
-                          ['youremail@mail.com'],
-                          fail_silently=False)
-                messages.success(request, 'Thank you! Your email was sent and '
-                                          'I will get back to you as soon as I can.')
-                form = ContactForm()
-            except BadHeaderError:
-                return HttpResponse('Invalid header found.')
+            # Form fields passed validation
+            # Begin reCAPTCHA validation
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            url = 'https://www.google.com/recaptcha/api/siteverify'
+            values = {
+                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                'response': recaptcha_response
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req = urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            # End reCAPTCHA validation
+            if result['success']:
+                # reCAPTCHA passed validation
+                name = form.cleaned_data['name']
+                from_email = form.cleaned_data['email']
+                subject = form.cleaned_data['subject']
+                # Message body with name and email
+                message = 'You have a message from {} ({}):\n\n{}'.format(form.cleaned_data['name'],
+                                                                          form.cleaned_data['email'],
+                                                                          form.cleaned_data['message'])
+                try:
+                    send_mail(subject,
+                              message,
+                              from_email,
+                              ['youremail@mail.com'],
+                              fail_silently=False)
+                    messages.success(request, 'Thank you! Your email was sent and '
+                                              'I will get back to you as soon as I can.')
+                    return redirect('core:contact')
+                except BadHeaderError:
+                    return HttpResponse('Invalid header found.')
 
-        else:
-            messages.error(request, 'Oh snap! Better check yourself, change '
-                                    'a few things up and try submitting again.')
+            else:
+                messages.error(request, 'Oh snap! Better check yourself, change '
+                                        'a few things up and try submitting again.')
     return render(request, 'core/contact.html', {'form': form})
