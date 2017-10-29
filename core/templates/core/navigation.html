@@ -16,6 +16,9 @@
         <li>
           <a class="js-scroll-trigger" href="#about">About</a>
         </li>
+        <li>
+          <a class="js-scroll-trigger" href="{% url 'core:ship_ranking' %}">Ranking</a>
+        </li>
         {% url 'core:ship_detail' as ship_url %}
         {% if request.get_full_path == ship_url %}
         <li>

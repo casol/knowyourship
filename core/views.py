@@ -71,7 +71,7 @@ def ship_detail(request, ship):
 
 def ship_ranking(request):
     # get ship ranking dictionary
-    ship_ranking = r.zrange('ship_ranking', 0, -1, desc=True)[:10]
+    ship_ranking = r.zrange('ship_ranking', 0, -1, desc=True)[:15]
     ship_ranking_ids = [int(id_) for id_ in ship_ranking]
     # get most viewed ship
     most_viewed = list(ShipList.objects.filter(id__in=ship_ranking_ids))

@@ -25,7 +25,7 @@
                         <h4 class="card-title">{{ ship.ship }}</h4>
                         <p>{{ total_views }}</p>
                         <p class="card-text">{{ ship.details.content|truncatechars:130 }}</p>
-                        <a href="{{ ship.get_absolute_url }}" class="btn btn-outline-dark">Go to Ship!</a>
+                        <a href="{{ ship.get_absolute_url }}" class="btn btn-outline-dark">Go to {{ ship.ship }}</a>
                     </div>
 
                     <div class="card-footer">
@@ -41,23 +41,22 @@
     <div class="card border-dark">
         <div class="card-img-top" id="map"></div>
           <div class="card-body text-dark">
-              <h2 class="card-title">SHIP RANKING</h2>
-              <h6 class="card-subtitle mb-2 text-muted">Most Viewed Ships</h6>
-                <ol class="card-text">
+                <div class="text-center">
+                  <h2 class="card-title font-weight-bold" >SHIP RANKING</h2>
+                  <h6 class="card-subtitle mb-2 text-muted">Most Viewed Ships</h6>
+                </div>
+                <ul class="list-inline">
                     {% for ship in most_viewed %}
-                        <li class="card-text">
-                            <a href="{{ ship.get_absolute_url }}">
-                            {{ ship.ship }}
-                            </a>
-                            </li>
+                    <li class="list-inline-item"><a href="{{ ship.get_absolute_url }}" class="btn btn-outline-dark">{{ forloop.counter }}. {{ ship.ship }}</a><hr></li>
                     {% endfor %}
-                </ol>
-             </div>
+                </ul>
+
+          </div>
     </div>
+
 </div>
 
 <hr>
-
 <script>
      var locations = [
         {% for ship in most_viewed %}
