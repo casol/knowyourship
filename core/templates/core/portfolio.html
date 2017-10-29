@@ -87,6 +87,10 @@
       </div>
       <!-- /.col-lg-10 -->
     </div>
+        <div id="share" class="jssocials">
+            <div class="jssocials-shares">
+            </div>
+        </div>
 
      <div class="card border-dark">
          <div class="card-body text-dark">
@@ -184,7 +188,7 @@
     <!-- /.row -->
 
   <!-- /.container -->
-
+    {% comment %}
     <script>
         window.onload = function(){
          $('html, body').animate({
@@ -192,7 +196,7 @@
                 }, 1000, "easeInOutExpo");
         };
     </script>
-
+    {% endcomment %}
     <script>
         function ImgError(source){
             source.src = "http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg";
@@ -202,6 +206,7 @@
             return true;
         }
     </script>
+
 </section>
 
 {% endblock %}

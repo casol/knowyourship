@@ -51,7 +51,7 @@ def ship_detail(request, ship):
                     replay_comment = comment_form.save(commit=False)
                     # assign parent_obj to replay comment
                     replay_comment.parent = parent_obj
-            # normal comment
+            # if parent_id = None - proceed with normal comment
             # create comment object but do not save to database
             new_comment = comment_form.save(commit=False)
             # assign ship to the comment

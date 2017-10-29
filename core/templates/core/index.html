@@ -71,7 +71,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <!-- Plugin JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
-
+    <!-- Plugin jsSocials -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-classic.css" />
+    <script src="{% static 'core/js/jssocials.js' %}"></script>
     <!-- Custom scripts for this template -->
     <script src="{% static "core/js/knowyourship.js" %}"></script>
 
@@ -80,26 +84,20 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAybkt5k4GdqP2FCq2v4svRiY-EzrqJsH0&callback=initMap">
     </script>
 
-    <script>
-      $(".comment-replay-btn").click(function(event){
-        event.preventDefault();
-        $(this).parent().next(".comment-replay").fadeToggle();
-      })
+    {% comment %}
+      <script>
+        $(document).ready(function(){
+        var href = window.location.href+'#map';
+        var splitit = (href.split('#'))[1];
+        if(splitit !== "" || splitit !== "undefined"){
+            $('html, body').animate({
+                scrollTop: $('#'+splitit).offset().top
+            }, 2000);
+        }
+    });
+      </script>
+    {% endcomment %}
 
-    </script>
-{% comment %}
-  <script>
-    $(document).ready(function(){
-    var href = window.location.href+'#map';
-    var splitit = (href.split('#'))[1];
-    if(splitit !== "" || splitit !== "undefined"){
-        $('html, body').animate({
-            scrollTop: $('#'+splitit).offset().top
-        }, 2000);
-    }
-});
-  </script>
-{% endcomment %}
   </body>
 
 </html>

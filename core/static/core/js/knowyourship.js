@@ -63,6 +63,11 @@
     }
   });
 
+  $(".comment-replay-btn").click(function(event){
+    event.preventDefault();
+    $(this).parent().next(".comment-replay").fadeToggle();
+  })
+
 })(jQuery); // End of use strict
 
 // Disable Google Maps scrolling
