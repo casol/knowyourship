@@ -48,7 +48,6 @@
                 {% endif %}
     </section>
     {% if "query" in request.GET %}
-
     {% else %}
     <hr>
     {% endif %}
@@ -56,7 +55,7 @@
     {% if "query" in request.GET %}
     <section id="about" class="about">
       <div class="container text-center">
-        <h2>Select one of the vessels located on the map  </h2>
+        <h2>Select one of the vessel located on the map  </h2>
           <p class="lead">Simply go to the map and select your ship or choose from the list:</p>
           {% for result in results %}
               {% with ship=result.object %}
@@ -66,6 +65,7 @@
 
       </div>
       <!-- /.container -->
+      <script src="{% static 'core/js/map_autoscroll.js' %}"></script>
     </section>
     {% endif %}
 {% endblock %}

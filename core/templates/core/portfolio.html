@@ -214,13 +214,7 @@
             </script>
         {% endif %}
         {% empty %}
-            <script>
-                window.onload = function(){
-                 $('html, body').animate({
-                          scrollTop: $("#map").offset().top
-                        }, 1000, "easeInOutExpo");
-                };
-            </script>
+        <script src="{% static 'core/js/map_autoscroll.js' %}"></script>
     {% endfor %}
 
     <script>
