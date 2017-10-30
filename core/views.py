@@ -25,7 +25,7 @@ r = redis.StrictRedis(host=settings.REDIS_HOST,
 import requests
 
 
-#@check_recaptcha
+# @check_recaptcha
 def ship_detail(request, ship):
     # get ship object
     ship = get_object_or_404(ShipList, slug=ship)
@@ -39,49 +39,34 @@ def ship_detail(request, ship):
         # comment has been added
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            # Form fields passed validation
-            # Begin reCAPTCHA validation
-            recaptcha_response = request.POST.get('g-recaptcha-response')
-            url = 'https://www.google.com/recaptcha/api/siteverify'
-            values = {
-                'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                'response': recaptcha_response
-            }
-            data = urllib.parse.urlencode(values).encode()
-            req = urllib.request.Request(url, data=data)
-            response = urllib.request.urlopen(req)
-            result = json.loads(response.read().decode())
-            # End reCAPTCHA validation
-            if result['success']:
-
-                parent_obj = None
-                # get parent comment id from hidden input
-                try:
-                    # id integer e.g. 15
-                    parent_id = int(request.POST.get('parent_id'))
-                except:
-                    parent_id = None
-                # if parent_id has been submitted get parent_obj id
-                if parent_id:
-                    parent_obj = Comment.objects.get(id=parent_id)
-                    # if parent object exist
-                    if parent_obj:
-                        # create replay comment object
-                        replay_comment = comment_form.save(commit=False)
-                        # assign parent_obj to replay comment
-                        replay_comment.parent = parent_obj
-                        gotodiv = 'comments'
-                # if parent_id = None - proceed with normal comment
-                # create comment object but do not save to database
-                new_comment = comment_form.save(commit=False)
-                # assign ship to the comment
-                new_comment.ship = ship
-                # save
-                new_comment.save()
-                return HttpResponseRedirect(ship.get_absolute_url())
-            else:
-                messages.error(request, 'Invalid reCAPTCHA. Please try again.')
-                return HttpResponseRedirect(ship.get_absolute_url())
+            parent_obj = None
+            # get parent comment id from hidden input
+            try:
+                # id integer e.g. 15
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            # if parent_id has been submitted get parent_obj id
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                # if parent object exist
+                if parent_obj:
+                    # create replay comment object
+                    replay_comment = comment_form.save(commit=False)
+                    # assign parent_obj to replay comment
+                    replay_comment.parent = parent_obj
+            # if parent_id = None - proceed with normal comment
+            # create comment object but do not save to database
+            new_comment = comment_form.save(commit=False)
+            # assign ship to the comment
+            new_comment.ship = ship
+            # save
+            new_comment.save()
+            messages.success(request, 'Your comment has been submitted.')
+            return HttpResponseRedirect(ship.get_absolute_url())
+        else:
+            messages.error(request, 'Oh snap! Better check yourself, change '
+                                    'a few things up and try submitting again.')
     else:
         comment_form = CommentForm()
     return render(request,
@@ -89,8 +74,7 @@ def ship_detail(request, ship):
                   {'ship': ship,
                    'total_views': total_views,
                    'comments': comments,
-                   'comment_form': comment_form
-                   })
+                   'comment_form': comment_form})
 
 
 def ship_ranking(request):
