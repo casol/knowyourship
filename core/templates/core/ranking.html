@@ -22,14 +22,10 @@
             <div class="card border-dark" title="{{ ship.ship }}">
                 <img class="card-img-top" src="{{ ship.ship_image.image.url }}" alt="Card image cap" onerror="ImgError(this)">
                     <div class="card-body text-dark">
-                        <h4 class="card-title">{{ ship.ship }}</h4>
+                        <h4 class="card-title">{{ forloop.counter }}. {{ ship.ship }}</h4>
                         <p>{{ total_views }}</p>
                         <p class="card-text">{{ ship.details.content|truncatechars:130 }}</p>
                         <a href="{{ ship.get_absolute_url }}" class="btn btn-outline-dark">Go to {{ ship.ship }}</a>
-                    </div>
-
-                    <div class="card-footer">
-                        <h4 class="text-muted">{{ forloop.counter }}.</h4>
                     </div>
             </div>
         {% endfor %}
