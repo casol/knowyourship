@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 
 class ShipList(models.Model):
@@ -19,6 +20,11 @@ class ShipList(models.Model):
     def get_absolute_url(self):
         return reverse('core:ship_detail',
                        args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.ship)
+            super(ShipList, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.ship
