@@ -56,6 +56,7 @@
             <div class="portfolio-item">
                 <div class="card border-dark">
                       <div class="card-body text-dark">
+                          <!-- Ship content -->
                           <div class="card-title">
                               <h1>
                                   <span class="card-title"><strong>{{ ship.ship }}</strong></span>
@@ -66,7 +67,7 @@
                               </h1>
                           </div>
                           {% if ship.details.content|length > 200 %}
-                            <p class="card-text">{{ ship.details.content }}</p>
+                            <p class="card-text">{{ ship.details.content|linebreaks }}</p>
                                 <small><li><a href="{{ ship.url }}">Source</a></li></small>
                           {% elif ship.details.content|length > 100 %}
                             <p class="card-text">{{ ship.details.content }}</p><br>
@@ -226,6 +227,8 @@
             return true;
         }
     </script>
+
+
 
 </section>
 

@@ -31,9 +31,15 @@
                  var locations = [
                     {% for result in results %}
                         {% with ship=result.object %}
+                            {% if ship.coordinates.latitude and ship.coordinates.longitude %}
+
                             ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
                             {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
                             {{ forloop.counter }}],
+
+                            {% else %}
+
+                         {% endif %}
                         {% endwith %}
                     {% empty %}
                         <div id="map"></div>
@@ -55,6 +61,7 @@
     {% if "query" in request.GET %}
     <section id="about" class="about">
       <div class="container text-center">
+        {% if results  %}
         <h2>Select one of the vessel located on the map  </h2>
           <p class="lead">Simply go to the map and select your ship or choose from the list:</p>
           {% for result in results %}
@@ -62,7 +69,9 @@
                 <li><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></li>
               {% endwith %}
           {% endfor %}
-
+        {% else %}
+          <h2>Some thing went wrong! Try again or search by country</h2>
+        {% endif %}
       </div>
       <!-- /.container -->
       <script src="{% static 'core/js/map_autoscroll.js' %}"></script>

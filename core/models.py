@@ -21,11 +21,12 @@ class ShipList(models.Model):
         return reverse('core:ship_detail',
                        args=[self.slug])
 
+    """
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.ship)
             super(ShipList, self).save(*args, **kwargs)
-
+    """
     def __str__(self):
         return self.ship
 
@@ -66,8 +67,8 @@ class ShipCoordinates(models.Model):
     does not use GeoDjango and PostGIS.
     """
     ship = models.OneToOneField(ShipList, related_name='coordinates')
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
     country = models.CharField(max_length=50)
 
     def __str__(self):
