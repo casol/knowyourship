@@ -1,0 +1,41 @@
+{% extends "core/index.html" %}
+{% load staticfiles %}
+
+
+{% block contact %}
+<!-- Header -->
+<header class="header" id="top">
+  <div class="text-vertical-center">
+    <h1>Know Your Ship</h1>
+    <h3>Find ships museum all over the world!</h3>
+    <br>
+    <a href="{% url 'core:ship_search' %}" class="btn btn-dark btn-lg js-scroll-trigger">Find More</a>
+    <a href="{% url 'core:contact' %}" class="btn btn-dark btn-lg js-scroll-trigger">Contact Me!</a>
+  </div>
+</header>
+
+<div class="call-to-action text-white" id="about">
+  <div class="container text-center">
+	  <h3><b>About</b></h3>
+  </div>
+</div>
+<br>
+
+<div class="container text-center">
+    <p>This list of museum ships is a comprehensive, sortable, annotated list
+		of museum ships around the world. Replica ships are listed separately
+		in the article on ship replicas. Ships that are not museum ships, but
+		are still actively used for excursions are included in the list of classic vessels.</p>
+</div>
+
+
+
+<script>
+window.onload = function(){
+ $('html, body').animate({
+          scrollTop: $("#about").offset().top
+        }, 1000, "easeInOutExpo");
+};
+</script>
+
+{% endblock %}

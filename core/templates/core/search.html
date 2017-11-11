@@ -64,11 +64,13 @@
         {% if results  %}
         <h2>Select one of the vessel located on the map  </h2>
           <p class="lead">Simply go to the map and select your ship or choose from the list:</p>
+          <ul class="group-list">
           {% for result in results %}
               {% with ship=result.object %}
-                <li><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></li>
+                <ul><a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a></ul>
               {% endwith %}
           {% endfor %}
+          </ul>
         {% else %}
           <h2>Some thing went wrong! Try again or search by country</h2>
         {% endif %}

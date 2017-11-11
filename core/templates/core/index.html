@@ -56,8 +56,9 @@
 
     {% endblock %}
 
-    {% url 'core:contact' as the_url %}
-    {% if request.get_full_path == the_url %}
+    {% url 'core:contact' as contact_url %}
+    {% url 'core:about' as about_url %}
+    {% if request.get_full_path == contact_url or request.get_full_path == about_url %}
     <!-- Contact-About -->
     {% else %}
     {% include "core/callout.html" %}

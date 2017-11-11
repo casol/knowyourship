@@ -174,6 +174,11 @@ def get_ship(request):
 
 
 def contact(request):
+    """Contact view is responsible for rendering contact form. After
+    submission function checks if form pass reCAPTCHA validation. If form
+    pass validation function creates a message object and send it or display
+    error message for the user.
+    """
     if request.method == 'GET':
         form = ContactForm()
     else:
@@ -219,3 +224,7 @@ def contact(request):
                 messages.error(request, 'Oh snap! Better check yourself, change '
                                         'a few things up and try submitting again.')
     return render(request, 'core/contact.html', {'form': form})
+
+
+def about(request):
+    return render(request, 'core/about.html')

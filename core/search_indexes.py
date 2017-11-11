@@ -3,7 +3,7 @@ from .models import ShipList
 
 
 class ShipListIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.EdgeNgramField(document=True, use_template=True)
+    text = indexes.CharField(document=True, use_template=True)
 
     def get_model(self):
         return ShipList

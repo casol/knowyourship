@@ -28,4 +28,9 @@ urlpatterns = [
     url(r'^ranking',
         views.ship_ranking,
         name='ship_ranking'),
+
+    # about
+    url(r'about',
+        views.about,
+        name='about'),
 ]
