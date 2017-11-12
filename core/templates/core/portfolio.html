@@ -68,7 +68,7 @@
                           </div>
                           {% if ship.details.content|length > 200 %}
                             <p class="card-text">{{ ship.details.content|linebreaks }}</p>
-                              <a href="{{ ship.url }}"><img alt="Wikipedia_link" src="{% static 'core/img/Wikipedia_affiliative_mark.png' %}"></a>
+                              <a href="{{ ship.url }}"><img alt="Wikipedia_link" src="{% static 'core/img/180px-Wp_logo_unified_horiz_rgb.png' %}"></a>
                           {% elif ship.details.content|length > 100 %}
                             <p class="card-text">{{ ship.details.content }}</p><br>
                                 <small>Would you like to see some more details?</small><br>
