@@ -8,11 +8,9 @@ from django.core.mail import send_mail, BadHeaderError
 
 from .models import ShipList, Comment
 from .forms import SearchForm, ContactForm, CommentForm
-from .decorators import check_recaptcha
 
 import json
 import urllib
-import itertools
 from haystack.query import SearchQuerySet
 import redis
 from django.conf import settings
@@ -22,10 +20,7 @@ r = redis.StrictRedis(host=settings.REDIS_HOST,
                       port=settings.REDIS_PORT,
                       db=settings.REDIS_DB)
 
-import requests
 
-
-# @check_recaptcha
 def ship_detail(request, ship):
     # get ship object
     ship = get_object_or_404(ShipList, slug=ship)
@@ -147,27 +142,16 @@ def get_ship(request):
     """
     # haystack autocomplete in progress
     query = request.GET.get('term', '')
-    sqs = SearchQuerySet().autocomplete(text=query)[:5]
-    suggestions = [result.text for result in sqs]  # <---- RESULT.OBJECT.SHIP RESULT.OBJECT.country !!
-    # list of all country from ShipList model      # omg... just need to be sugg_ship and sugg_contry
-    country_list = ShipList.objects.all().values_list('country', flat=True)
-    country_list = list(set(country_list))
-    # split string into a list e.g. "USS Becun\nUnited States\n" -> ["USS Becun, "United", ""]
-    results = [ship.split('\n') for ship in suggestions]
-    # make list out of list of lists e.g. [[1, 2],[4, 5]] -> [1, 2, 4, 5]
-    results = list(itertools.chain.from_iterable(results))
-    # remove empty strings from a list
-    results = list(set(filter(None, results)))
-    # check if query contains country name
-    if any(query.title() in s for s in country_list):
-        # compere two lists and return matches
-        compere = list(set(results) & set(country_list))
-        results = []
-        # return country
-        results = compere
-    else:
-        # if query contains ship name remove country from results
-        results = list(set(results) - set(country_list))
+    # autocomplete for ships name
+    sqs1 = SearchQuerySet().autocomplete(text=query)[:7]
+    # autocomplete for country
+    sqs2 = SearchQuerySet().autocomplete(country_auto=query)
+    # create list of suggested ships
+    suggestions_ship = [result.object.ship for result in sqs1]
+    # create a list with suggested country
+    suggestions_country = list(set([result.object.country for result in sqs2]))
+    # combine two lists of suggestions
+    results = suggestions_ship + suggestions_country
     # Make sure you return a JSON object, not a bare list.
     # if other than dict you must set the safe parameter to False
     return JsonResponse(results, safe=False)
