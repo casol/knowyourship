@@ -18,8 +18,7 @@ class ContactForm(forms.Form):
     message = forms.CharField(required=True, widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
-        """
-        Added 'placeholder' attribute by customizing the default widget and
+        """Added 'placeholder' attribute by customizing the default widget and
         form control class for all fields.
         """
         super().__init__(*args, **kwargs)
@@ -37,8 +36,7 @@ class CommentForm(forms.ModelForm):
         fields = ('name', 'email', 'body')
 
     def __init__(self, *args, **kwargs):
-        """
-        Added 'placeholder' attribute by customizing the default widget and
+        """Added 'placeholder' attribute by customizing the default widget and
         form control class for all fields.
         """
         super().__init__(*args, **kwargs)

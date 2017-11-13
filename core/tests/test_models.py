@@ -29,7 +29,7 @@ class ShipListTest(TestCase):
 
     def test_ship_field_max_length(self):
         max_length = self.s._meta.get_field('ship').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
     def test_country_field(self):
         field_country = self.s._meta.get_field('country').verbose_name
@@ -37,7 +37,7 @@ class ShipListTest(TestCase):
 
     def test_country_field_max_length(self):
         max_length = self.s._meta.get_field('country').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
     def test_region_field(self):
         field_region = self.s._meta.get_field('region').verbose_name
@@ -61,7 +61,7 @@ class ShipListTest(TestCase):
 
     def test_from_country_field_max_length(self):
         max_length = self.s._meta.get_field('from_country').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
     def test_year_field(self):
         field_year = self.s._meta.get_field('year').verbose_name
@@ -69,7 +69,7 @@ class ShipListTest(TestCase):
 
     def test_year_field_max_length(self):
         max_length = self.s._meta.get_field('year').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 20)
 
     def test_ship_class_field(self):
         field_ship_class = self.s._meta.get_field('ship_class').verbose_name
@@ -77,7 +77,7 @@ class ShipListTest(TestCase):
 
     def test_ship_class_field_max_length(self):
         max_length = self.s._meta.get_field('ship_class').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
     def test_ship_type_field(self):
         field_ship_type = self.s._meta.get_field('ship_type').verbose_name
@@ -85,7 +85,7 @@ class ShipListTest(TestCase):
 
     def test_ship_type_field_max_length(self):
         max_length = self.s._meta.get_field('ship_type').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
     def test_remarks_field(self):
         field_remarks = self.s._meta.get_field('remarks').verbose_name
@@ -93,7 +93,7 @@ class ShipListTest(TestCase):
 
     def test_remarks_field_max_length(self):
         max_length = self.s._meta.get_field('remarks').max_length
-        self.assertEqual(max_length, 250)
+        self.assertEqual(max_length, 200)
 
 
 class ShipDetailsTest(TestCase):
