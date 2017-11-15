@@ -1,15 +1,15 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
-
+from django.test import Client
 from core.models import ShipList, ShipDetails, Comment
 from core.views import ship_search, get_ship, contact, about, ship_detail, ship_ranking
-
-
+from django.core.urlresolvers import reverse
 
 class RequestTest(TestCase):
 
     def setUp(self):
         # Every test need access to the request factory.
+        # RequestFactory returns a request
         self.factory = RequestFactory()
 
         self.ship = ShipList.objects.create(ship='USS Test', country='Testland',
@@ -82,3 +82,20 @@ class RequestTest(TestCase):
         response = ship_detail(request, self.ship.slug)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test")
+
+
+class ViewTest(TestCase):
+
+    def setUp(self):
+        # Every test needs a Client
+        self.client = Client()
+        self.ship = ShipList.objects.create(ship='USS Test', country='Testland',
+                                            region='Testo', city='Test City',
+                                            from_country='Testland', year='2017',
+                                            ship_class='Tester', remarks='Just ship',
+                                            slug='uss-test')
+
+    def test_search_view(self):
+        # client returns a response (request-response cycle)
+        response = self.client.get('/core/')
+        self.assertEqual(response.status_code, 200)

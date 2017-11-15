@@ -9,7 +9,7 @@
         <h3>Find ships museum all over the world!</h3>
         <div class="featurette">
            <div class="featurette-inner text-center">
-              <form action="" method="get" role="form" class="search has-button">
+              <form action="" method="get" role="form" class="search has-button">{% csrf_token %}
                 <div class="form-group">
                     {{ form }}
                     <input id="sub" type="submit" value="Search" class="btn btn-lg btn-warning" type="button">
