@@ -5,6 +5,7 @@ from core.models import ShipList, ShipDetails, Comment
 from core.views import ship_search, get_ship, contact, about, ship_detail, ship_ranking
 from django.core.urlresolvers import reverse
 
+
 class RequestTest(TestCase):
 
     def setUp(self):
@@ -83,6 +84,19 @@ class RequestTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test")
 
+        # post request
+    def test_contact_view_post_request(self):
+        """test_contact_view_post_request() sending a POST request with data."""
+        # create the request
+        data = {'name': 'Test',
+                'email': 'test@mail.com',
+                'subject': 'Test',
+                'message': 'Test,test,test'}
+        request = self.factory.post(reverse('core:contact'), data)
+        # get the response
+        response = contact(request)
+        self.assertEqual(response.status_code, 302)
+
 
 class ViewTest(TestCase):
 
@@ -97,5 +111,21 @@ class ViewTest(TestCase):
 
     def test_search_view(self):
         # client returns a response (request-response cycle)
-        response = self.client.get('/core/')
+        response = self.client.get(reverse('core:ship_search'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_view(self):
+        response = self.client.get(reverse('core:contact'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_ship_ranking_view(self):
+        response = self.client.get(reverse('core:ship_ranking'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_about_view(self):
+        response = self.client.get(reverse('core:about'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_ship_details_view(self):
+        response = self.client.get(self.ship.get_absolute_url())
         self.assertEqual(response.status_code, 200)
