@@ -12,7 +12,8 @@ class ShipListTest(TestCase):
         self.s = ShipList.objects.create(ship='USS Test', country='Testland',
                                          region='Testo', city='Test City',
                                          from_country='Testland', year='2017',
-                                         ship_class='Tester', remarks='Just ship')
+                                         ship_class='Tester', remarks='Just ship',
+                                         slug='uss-test')
 
     def test_str(self):
         """test_str should return ship name."""
@@ -94,6 +95,9 @@ class ShipListTest(TestCase):
     def test_remarks_field_max_length(self):
         max_length = self.s._meta.get_field('remarks').max_length
         self.assertEqual(max_length, 200)
+
+    def test_get_absolute_url(self):
+        self.assertEqual(self.s.get_absolute_url(), '/core/'+self.s.slug+'/')
 
 
 class ShipDetailsTest(TestCase):

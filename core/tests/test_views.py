@@ -84,18 +84,14 @@ class RequestTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test")
 
-        # post request
-    def test_contact_view_post_request(self):
-        """test_contact_view_post_request() sending a POST request with data."""
+    def test_ship_search_view_get_request(self):
+        """test_contact_view_post_request() sending a GET request with data."""
         # create the request
-        data = {'name': 'Test',
-                'email': 'test@mail.com',
-                'subject': 'Test',
-                'message': 'Test,test,test'}
-        request = self.factory.post(reverse('core:contact'), data)
+        data = {'query': 'Test'}
+        request = self.factory.get(reverse('core:ship_search'), data)
         # get the response
-        response = contact(request)
-        self.assertEqual(response.status_code, 302)
+        response = ship_search(request)
+        self.assertEqual(response.status_code, 200)
 
 
 class ViewTest(TestCase):
@@ -113,19 +109,53 @@ class ViewTest(TestCase):
         # client returns a response (request-response cycle)
         response = self.client.get(reverse('core:ship_search'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'core/search.html')
 
     def test_contact_view(self):
         response = self.client.get(reverse('core:contact'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'core/contact.html')
 
     def test_ship_ranking_view(self):
         response = self.client.get(reverse('core:ship_ranking'))
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context['most_viewed']), 1)
+        self.assertTemplateUsed(response, 'core/ranking.html')
 
     def test_about_view(self):
         response = self.client.get(reverse('core:about'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'core/about.html')
 
     def test_ship_details_view(self):
         response = self.client.get(self.ship.get_absolute_url())
         self.assertEqual(response.status_code, 200)
+        # Check that the rendered context contains 1 ship
+        self.assertEqual(response.context['ship'].ship, 'USS Test')
+        self.assertTemplateUsed(response, 'core/portfolio.html')
+
+    def test_contact_view_post_request(self):
+        """test_contact_view_post_request() sending a POST request with data."""
+        # create the request
+        data = {'name': 'Tes Tester',
+                'email': 'test@test.com',
+                'subject': 'Test, Test test',
+                'message': 'TEATEASTAET'}
+        response = self.client.post(reverse('core:contact'), data)
+        #
+        message = list(response.context['messages'])
+        self.assertEqual(len(message), 1)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_ship_details_comments_view_post_request(self):
+        """test_ship_details_comments_view_post_request()
+        sending a POST request with data.
+        """
+        # create the request
+        data = {'name': 'Tes Tester',
+                'email': 'test@test.com',
+                'body': 'Test, Test test'}
+        # get the response
+        response = self.client.post(self.ship.get_absolute_url(), data)
+        self.assertEqual(response.status_code, 302)
