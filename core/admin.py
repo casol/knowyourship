@@ -30,6 +30,11 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'body')
 
 
+class ShipImageAdmin(admin.ModelAdmin):
+    list_display = ('ship', 'title', 'usage_terms', 'artist', 'image')
+    search_fields = ('ship__ship', 'title', 'ship__country')
+    list_filter = ('ship__country',)
+
 admin.site.register(ShipList, ShipListAdmin)
-admin.site.register(ShipImage)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(ShipImage, ShipImageAdmin)

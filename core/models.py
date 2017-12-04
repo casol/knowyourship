@@ -43,13 +43,12 @@ class ShipImage(models.Model):
     artist = models.CharField(max_length=200)
     created = models.CharField(max_length=200)
     source_url = models.URLField()
-    slug = models.SlugField(max_length=200, blank=True)
     usage_terms = models.CharField(max_length=250)
     license_url = models.URLField()
     license_short_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.title
+        return 'Ship: {}, Image: {}'.format(self.ship.ship, self.title)
 
 
 class ShipDetails(models.Model):
