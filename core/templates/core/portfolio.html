@@ -70,9 +70,12 @@
                               </h1>
                           </div>
                           {% if ship.details.content|length > 200 %}
+                          <div class="truncate">
                             <p class="card-text">{{ ship.details.content|linebreaks }}</p>
-                              <a href="{{ ship.url }}"><img alt="Wikipedia_link" src="{% static 'core/img/180px-Wp_logo_unified_horiz_rgb.png' %}"></a>
-                          {% elif ship.details.content|length > 100 %}
+                          </div>
+                          <br>
+                          <a href="{{ ship.url }}"><img alt="Wikipedia_link" src="{% static 'core/img/180px-Wp_logo_unified_horiz_rgb.png' %}"></a>
+                              {% elif ship.details.content|length > 100 %}
                             <p class="card-text">{{ ship.details.content }}</p><br>
                                 <small>Would you like to see some more details?</small><br>
                                 <small>If you would like to contribute please go to <a href="{{ ship.url }}">Wikipedia page.</a></small>
