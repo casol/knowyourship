@@ -21,6 +21,10 @@ $(document).ready(function() {
         if(thisEl.hasClass("less")) {
             thisEl.closest('.truncate-text').prev('.truncate-text').toggle();
             thisEl.closest('.truncate-text').slideToggle();
+            $('html, body').animate({
+                    scrollTop: $("#portfolio").offset().top
+                }, 1200);
+
         } else {
             thisEl.closest('.truncate-text').toggle();
             thisEl.closest('.truncate-text').next('.truncate-text').fadeToggle();

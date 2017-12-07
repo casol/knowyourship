@@ -13,7 +13,7 @@ class ShipCoordinatesInline(admin.StackedInline):
 
 
 class ShipListAdmin(admin.ModelAdmin):
-    list_display = ('ship', 'id', 'country', 'region', 'city', 'from_country',
+    list_display = ('id', 'ship', 'id', 'country', 'region', 'city', 'from_country',
                     'year', 'ship_class', 'ship_type', 'remarks', 'url')
     list_filter = ('country', 'from_country')
     prepopulated_fields = {'slug': ('ship',)}
@@ -31,8 +31,8 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class ShipImageAdmin(admin.ModelAdmin):
-    list_display = ('ship', 'title', 'usage_terms', 'artist', 'image')
-    search_fields = ('ship__ship', 'title', 'ship__country')
+    list_display = ('id', 'ship', 'title', 'usage_terms', 'artist', 'image')
+    search_fields = ('id', 'ship__ship', 'title', 'ship__country')
     list_filter = ('ship__country',)
 
 admin.site.register(ShipList, ShipListAdmin)
