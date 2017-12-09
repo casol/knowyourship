@@ -1,0 +1,16 @@
+{% extends "core/index.html" %}
+{% load staticfiles %}
+
+{% block search %}
+<!-- Header -->
+<header class="header" id="top">
+  <div class="text-vertical-center">
+    <h1>403</h1>
+    <h3>403 FORBIDDEN</h3>
+    <h6>The request is for something forbidden. Authorization will not help.</a></h6>
+    <br>
+    <a href="{% url 'core:ship_search' %}" class="btn btn-dark btn-lg js-scroll-trigger">Go to the Know Your Ship home page</a>
+  </div>
+</header>
+{% endblock %}
+{% include 'core/footer.html' %}

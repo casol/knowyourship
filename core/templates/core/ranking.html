@@ -56,9 +56,12 @@
 <script>
      var locations = [
         {% for ship in most_viewed %}
-                ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
-                {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
-                {{ forloop.counter }}],
+                {% if ship.coordinates.latitude and ship.coordinates.longitude %}
+                    ['<a href="{{ ship.get_absolute_url }}">{{ ship.ship }}</a>',
+                    {{ ship.coordinates.latitude }}, {{ ship.coordinates.longitude }},
+                    {{ forloop.counter }}],
+                {% else %}
+                {% endif %}
         {% endfor %}
         ];
 </script>
