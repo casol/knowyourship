@@ -212,17 +212,11 @@
         <script src="{% static 'core/js/map_autoscroll.js' %}"></script>
     {% endfor %}
 
+    <!-- Stock Image -->
     <script>
-        function ImgError(source){
-            source.src = "http://www.wikihow.com/images/4/4d/Draw-a-Ship-Step-20-Version-2.jpg";
-            source.onerror = "";
-            var msg = 'Nice one? kinda... Would you like to add proper ship picture? Just visit <a href="{{ ship.url }}">Wikipedia page</a> and add some images!';
-            document.getElementById('ship_img').innerHTML = msg;
-            return true;
-        }
+         var no_img_ship = "{% static 'core/img/no_ship_img.jpg' %}";
     </script>
-
-
+    <script src="{% static 'core/js/ship_img.js' %}"></script>
 
 </section>
 
