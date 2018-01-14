@@ -1,6 +1,6 @@
   $(function() {
     $("#id_query").autocomplete({
-      source: "/core/get_ship/",
+      source: "/get_ship/",
       select: function (event, ui) { //item selected
         AutoCompleteSelectHandler(event, ui)
       },
