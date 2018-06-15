@@ -31,6 +31,7 @@ Set Up with Django with Postgres, Nginx, and Gunicorn on Ubuntu 16.04 hosted on 
 * Image uploader
 * Cookie Policy
 * Social Share
+* SSL Certificate
 
 ## Authors
 
@@ -43,3 +44,11 @@ This project is licensed under the MIT License - see the [LICENSE.md](https://gi
 ## Acknowledgments
 
 * Looking for great themes&templates? Check [Blackrock Digital](https://github.com/BlackrockDigital)
+
+
+![knowyourship_find_by_country](https://user-images.githubusercontent.com/25305476/41468076-fb94f738-70a8-11e8-9a3c-6eb3c727a01c.gif)
+
+
+
+or
+![knowyourship_find_by_ship](https://user-images.githubusercontent.com/25305476/41468235-8cd33854-70a9-11e8-889a-0405b2293153.gif)
